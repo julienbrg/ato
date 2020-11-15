@@ -19,7 +19,7 @@ export function Register({ Register, name, symbol }) {
         }}
       >
       <div className="form-group">
-        <p>Choose a name and a symbol for your ERC-20, then click on the 'Proceed' button to issue 10,000 shares</p>
+        <p>Choose a name and a symbol for your artwork, then click on the 'Proceed' button to issue 10,000 shares.</p>
         <label>Name</label>
         <input
           className="form-control"

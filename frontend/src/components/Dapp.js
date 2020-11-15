@@ -513,14 +513,11 @@ export class Dapp extends React.Component {
       const factory = new ContractFactory(abi, bytecode, signer);
       const _name = name;
       const _symbol = symbol;
-      console.log("name = ",name,"symbol = ",symbol);
       const contract = await factory.deploy(_name, _symbol);
       this.setState({ cAddr: contract.address });
-      console.log("Contract address:", this.state.cAddr);
 
       // We 'register' the address of the contract we just deployed in Minter.sol
       const tx = await this._minter.registerArtwork(this.state.cAddr);
-      console.log(this.state.cAddr);
       this.setState({ txBeingSent: tx.hash });
 
       // TO DO: add the cAddr as an arg of this tx
@@ -528,7 +525,6 @@ export class Dapp extends React.Component {
       if (receipt.status === 0) {
         throw new Error("Transaction failed");
       }
-      console.log("tx to Minter.sol sent.");
 
       await this._updateRegistered();
     } catch (error) {
@@ -569,7 +565,7 @@ export class Dapp extends React.Component {
     }
 
     this.setState({
-      networkError: 'Please connect Metamask to Localhost:8545'
+      networkError: 'Please switch to Ropsten network'
     });
 
     return false;

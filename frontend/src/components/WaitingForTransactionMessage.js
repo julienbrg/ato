@@ -5,7 +5,7 @@ export function WaitingForTransactionMessage({ txHash }) {
 
     <div className="alert alert-info" role="alert">
       <p>
-        Deploymen tx hash: <strong>{txHash}</strong>
+        Deployment tx hash: <strong><small>{txHash}</small></strong>
       </p>
     </div>
   );

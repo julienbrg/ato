@@ -3,7 +3,7 @@ import React from "react";
 export function SharesInfo({ cAddr }) {
   return (
     <div>
-      New ERC-20 contract to be deployed at <strong><a href = "">{cAddr}</a></strong>
+      Your artwork shares will be available at <strong>{cAddr}</strong>
     </div>
   );
 }
