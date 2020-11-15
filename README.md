@@ -1,10 +1,12 @@
 # Minter
 
-This project was bootstrapped with [Hardhat](https://github.com/nomiclabs/hardhat) and  [Create React App](https://github.com/facebook/create-react-app).
+Minter app allows everyone to issue 10,000 units of an ERC-20.
+
+A live demo is available at [https://strat.cc/minter](https://strat.cc/minter).
 
 ## Motivation
 
-I needed to test the deployment of an ERC20 from a UI.
+Testing the deployment of an ERC20 from a UI.
 
 ## Install
 
@@ -20,7 +22,7 @@ npm install
 npx hardhat test
 ```
 
-## Deploy to Ropsten
+## Deploy
 
 Add your Infura `Project ID` and `private key` in `hardhat.config.js`.
 
@@ -35,3 +37,10 @@ cd frontend
 npm install
 npm start
 ```
+## Usage
+
+Make sure you have some [Ropsten ETH](https://faucet.ropsten.be/) and go to [https://strat.cc/minter](https://strat.cc/minter).
+
+## Contact
+
+Feel free to [contact me](https://strat.eth.link/contact.html).
