@@ -8,7 +8,7 @@ import { ConnectWallet } from "./ConnectWallet";
 import { Loading } from "./Loading";
 import { Register } from "./Register";
 import { DisplayEtherscanLink } from "./DisplayEtherscanLink";
-import {WaitingForSharesInfo} from "./WaitingForSharesInfo";
+import {SharesInfo} from "./SharesInfo";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 const HARDHAT_NETWORK_ID = '3';
@@ -107,7 +107,7 @@ export class Dapp extends React.Component {
         <div className="row">
           <div className="col-12">
           {this.state.txBeingSent && (
-            <WaitingForSharesInfo cAddr={this.state.cAddr} />
+            <SharesInfo cAddr={this.state.cAddr} />
           )}
           {!this.state.txBeingSent && (
             <DisplayEtherscanLink userAddr={`https://ropsten.etherscan.io/address/${this.state.selectedAddress}#tokentxns`}
