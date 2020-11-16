@@ -5,7 +5,10 @@ export function WaitingForTransactionMessage({ txHash }) {
 
     <div className="alert alert-info" role="alert">
       <p>
-        Deployment tx hash: <strong><small>{txHash}</small></strong>
+        ERC-20 contract deployment pending.
+      </p>
+      <p>
+        tx hash: <strong>{txHash}</strong>
       </p>
     </div>
   );
