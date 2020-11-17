@@ -20,7 +20,7 @@ export function PendingDeployment({ userAddr, cDeployed, etherscanLink, cName, c
         Supply: <strong>{cSupply}</strong> units
       </p>
       <p>
-        <a target="_blank" rel="noreferrer" href = {userAddr}>View all your artworks on Etherscan.</a>
+        <a target="_blank" rel="noreferrer" href = {userAddr}>View all your shares on Etherscan.</a>
       </p>
     </div>
   );
