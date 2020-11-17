@@ -111,7 +111,7 @@ export class Dapp extends React.Component {
 
         <div className="row">
           <div className="col-12">
-          {!this.state.txBeingSent && (
+          {this.state.cName && (
             <DisplayEtherscanLink
               latestContractDeployedEtherscan={`https://ropsten.etherscan.io/address/${this.state.cDeployed}`}
               userAddr={`https://ropsten.etherscan.io/address/${this.state.selectedAddress}#tokentxns`}
@@ -189,30 +189,20 @@ export class Dapp extends React.Component {
     const cDeployed = await this._minter.getMyLatestRegistration(this.state.selectedAddress);
     this.setState({ cDeployed });
 
-    // here you can grab this.state.cDeployed
-
-    console.log("cDeployed =", this.state.cDeployed);
-
     this._shares = new ethers.Contract(
       this.state.cDeployed,
       SharesArtifact.abi,
       this._provider.getSigner(0)
     );
 
-    // here we call the name of the token
-
     const cName = await this._shares.tokenName();
     this.setState({ cName });
-    console.log("cName =", this.state.cName);
 
     const cSymbol = await this._shares.tokenTicker();
     this.setState({ cSymbol });
-    console.log("cSymbol =", this.state.cSymbol);
 
     const cSupply = await this._shares.totalSupply();
     this.setState({ cSupply });
-    this.setState({ cSupply });
-    console.log("cSupply =", this.state.cSupply);
   }
 
   async _Register(name, symbol) {
