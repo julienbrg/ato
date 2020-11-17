@@ -8,7 +8,7 @@ export function WaitingForTransactionMessage({ txHash }) {
         ERC-20 contract deployment pending.
       </p>
       <p>
-        tx hash: <strong>{txHash}</strong>
+        Tx hash: <strong>{txHash}</strong>
       </p>
     </div>
   );

@@ -25,8 +25,8 @@ contract Minter {
     return registrations;
   }
 
-  function getMyLatestRegistration() external view returns (address) {
-    return registered[msg.sender];
+  function getMyLatestRegistration(address _selectedAddress) external view returns (address) {
+    return registered[_selectedAddress];
   }
 
   // TO DO: add a function that allows owner to whitelist an address

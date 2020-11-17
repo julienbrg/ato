@@ -204,71 +204,6 @@
         "Address"
       ]
     },
-    "/Users/ju/Desktop/minter/contracts/Shares.sol": {
-      "lastModificationDate": 1605440610341,
-      "sourceName": "contracts/Shares.sol",
-      "solcConfig": {
-        "version": "0.6.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [],
-      "artifacts": []
-    },
-    "/Users/ju/Desktop/minter/contracts/Minter.sol": {
-      "lastModificationDate": 1605440804244,
-      "sourceName": "contracts/Minter.sol",
-      "solcConfig": {
-        "version": "0.6.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol",
-        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
-      ],
-      "versionPragmas": [
-        "^0.6.0"
-      ],
-      "artifacts": [
-        "Minter"
-      ]
-    },
     "/Users/ju/Desktop/projects/minter/contracts/Minter.sol": {
       "lastModificationDate": 1605442068635,
       "sourceName": "contracts/Minter.sol",
@@ -536,6 +471,78 @@
       "imports": [],
       "versionPragmas": [],
       "artifacts": []
+    },
+    "/Users/ju/Desktop/minter/contracts/Shares.sol": {
+      "lastModificationDate": 1605535726543,
+      "sourceName": "contracts/Shares.sol",
+      "solcConfig": {
+        "version": "0.6.2",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol",
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "Shares"
+      ]
+    },
+    "/Users/ju/Desktop/minter/contracts/Minter.sol": {
+      "lastModificationDate": 1605539294167,
+      "sourceName": "contracts/Minter.sol",
+      "solcConfig": {
+        "version": "0.6.2",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol",
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "Minter"
+      ]
     }
   }
 }

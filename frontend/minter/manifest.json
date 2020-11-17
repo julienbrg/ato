@@ -3,17 +3,17 @@
   "name": "Minter",
   "icons": [
     {
-      "src": "/../minter/favicon.ico",
+      "src": "../minter/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "/../minter/logo192.png",
+      "src": "../minter/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/../minter/logo310.png",
+      "src": "../minter/logo310.png",
       "type": "image/png",
       "sizes": "310x310"
     }
