@@ -32,8 +32,8 @@ export class Dapp extends React.Component {
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
+      stepZero: undefined,
     };
-
     this.state = this.initialState;
   }
 
@@ -68,8 +68,8 @@ export class Dapp extends React.Component {
               Welcome! Your address is <b>{this.state.selectedAddress}</b>
             </p>
             <p>
-              Artworks registered so far: {" "}
-            <b>{this.state.registered.toString()}</b>.
+              Registered artworks far: {" "}
+            <b>{this.state.registered.toString()}</b>
             </p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export class Dapp extends React.Component {
 
         <div className="row">
           <div className="col-12">
-          {this.state.cName && (
+          {this.state.stepZero && (
             <DisplayEtherscanLink
               latestContractDeployedEtherscan={`https://ropsten.etherscan.io/address/${this.state.cDeployed}`}
               userAddr={`https://ropsten.etherscan.io/address/${this.state.selectedAddress}#tokentxns`}
@@ -123,7 +123,6 @@ export class Dapp extends React.Component {
           )}
           </div>
         </div>
-
       </div>
     );
   }
@@ -185,24 +184,30 @@ export class Dapp extends React.Component {
   async _updateRegistered() {
     const registered = await this._minter.getArtworkData();
     this.setState({ registered });
-
     const cDeployed = await this._minter.getMyLatestRegistration(this.state.selectedAddress);
-    this.setState({ cDeployed });
+      this.setState({ cDeployed });
+      if (this.state.cDeployed == "0x0000000000000000000000000000000000000000") {
+        this.setState({ stepZero: undefined });
+      } else {
+        this.setState({ stepZero: 1 });
+        this._shares = new ethers.Contract(
+        this.state.cDeployed,
+        SharesArtifact.abi,
+        this._provider.getSigner(0)
+      );
 
-    this._shares = new ethers.Contract(
-      this.state.cDeployed,
-      SharesArtifact.abi,
-      this._provider.getSigner(0)
-    );
+      if (this.state.cDeployed) {
+      const cName = await this._shares.tokenName();
+      this.setState({ cName });
 
-    const cName = await this._shares.tokenName();
-    this.setState({ cName });
+      const cSymbol = await this._shares.tokenTicker();
+      this.setState({ cSymbol });
 
-    const cSymbol = await this._shares.tokenTicker();
-    this.setState({ cSymbol });
-
-    const cSupply = await this._shares.totalSupply();
-    this.setState({ cSupply });
+      const cSupply = await this._shares.totalSupply();
+      this.setState({ cSupply });
+      this.setState({ cSupply });
+      }
+    }
   }
 
   async _Register(name, symbol) {
@@ -211,7 +216,6 @@ export class Dapp extends React.Component {
 
       this._dismissTransactionError();
 
-      // We first send the contract deployment tx
       const abi = [
   {
     "anonymous": false,
@@ -542,7 +546,6 @@ export class Dapp extends React.Component {
       console.log("Deployment tx hash:", contract.deployTransaction.hash);
       this.setState({ txBeingSent: contract.deployTransaction.hash });
 
-      // The we add the address of the contract we just deployed in Minter.sol
       const tx = await this._minter.registerArtwork(this.state.cAddr);
 
       const receipt = await tx.wait();
@@ -590,7 +593,7 @@ export class Dapp extends React.Component {
     }
 
     this.setState({
-      networkError: 'Please set Metamask to Ropsten network'
+      networkError: 'Please switch your Metamask to Ropsten Network'
     });
 
     return false;

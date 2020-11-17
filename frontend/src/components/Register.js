@@ -16,6 +16,7 @@ export function Register({ Register, name, symbol }) {
             Register(name, symbol);
           }
 
+
         }}
       >
       <div className="form-group">
