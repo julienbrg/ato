@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "../minter/static/js/main.f149fdb8.chunk.js",
-    "main.js.map": "../minter/static/js/main.f149fdb8.chunk.js.map",
+    "main.js": "../minter/static/js/main.28282ed1.chunk.js",
+    "main.js.map": "../minter/static/js/main.28282ed1.chunk.js.map",
     "runtime-main.js": "../minter/static/js/runtime-main.32aae409.js",
     "runtime-main.js.map": "../minter/static/js/runtime-main.32aae409.js.map",
     "static/css/2.0404d52f.chunk.css": "../minter/static/css/2.0404d52f.chunk.css",
@@ -15,6 +15,6 @@
     "../minterstatic/js/runtime-main.32aae409.js",
     "../minterstatic/css/2.0404d52f.chunk.css",
     "../minterstatic/js/2.6b394319.chunk.js",
-    "../minterstatic/js/main.f149fdb8.chunk.js"
+    "../minterstatic/js/main.28282ed1.chunk.js"
   ]
 }

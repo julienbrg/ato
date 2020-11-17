@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+The repo named 'minter' is the latest build. You can check the demo at [https://strat.cc/minter](https://strat.cc/minter).
+
 ## Available Scripts
 
 In the project directory, you can run:

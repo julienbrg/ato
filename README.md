@@ -1,12 +1,10 @@
-# Minter
+# Minter v0.1.0
 
 Minter app allows everyone to issue 10,000 units of an ERC-20.
 
-A live demo is available at [https://strat.cc/minter](https://strat.cc/minter).
+A demo is available at [https://strat.cc/minter](https://strat.cc/minter).
 
-## Motivation
-
-Testing the deployment of an ERC20 from a UI.
+![alt demo](https://ipfs.io/ipfs/QmZzfuemNybgpHtJvqCz84jE9Fh4CknxCp7cDxRnRUx58k)
 
 ## Install
 
@@ -24,10 +22,10 @@ npx hardhat test
 
 ## Deploy
 
-Add your Infura `Project ID` and `private key` in `hardhat.config.js`.
+Add your [Infura](https://infura.io/) project ID and your account private key in `hardhat.config.js`.
 
 ```
-npx hardhat run scripts/deploy.js --network ropsten
+npx hardhat run scripts/deploy.js --network goerli
 ```
 
 ## Run
@@ -39,8 +37,8 @@ npm start
 ```
 ## Usage
 
-Make sure you have some [Ropsten ETH](https://faucet.ropsten.be/) and go to [https://strat.cc/minter](https://strat.cc/minter).
+Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/) and go to [https://strat.cc/minter](https://strat.cc/minter).
 
 ## Contact
 
-Feel free to [contact me](https://strat.eth.link/contact.html).
+Feel free to [contact me](https://strat.eth.link/contact.html) if you need anything.

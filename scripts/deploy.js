@@ -375,27 +375,12 @@ function saveFrontendFiles(minter) {
     JSON.stringify(MinterArtifact, null, 2)
   );
 
-  console.log("Minter.sol address properly stored");
-
-  // const fs = require("fs");
-  // const contractsDir = __dirname + "/../frontend/src/contracts";
-
-  // if (!fs.existsSync(contractsDir)) {
-  //   fs.mkdirSync(contractsDir);
-  // }
-
-  // fs.writeFileSync(
-  //   contractsDir + "/contract-address.json",
-  //   JSON.stringify({ Shares: shares.address }, undefined, 2)
-  // );
-
   const SharesArtifact = artifacts.readArtifactSync("Shares");
 
   fs.writeFileSync(
     contractsDir + "/Shares.json",
     JSON.stringify(SharesArtifact, null, 2)
   );
-  console.log("Shares.sol artifact saved");
 }
 
 main()

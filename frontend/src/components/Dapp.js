@@ -8,11 +8,11 @@ import { NoWalletDetected } from "./NoWalletDetected";
 import { ConnectWallet } from "./ConnectWallet";
 import { Loading } from "./Loading";
 import { Register } from "./Register";
-import { DisplayEtherscanLink } from "./DisplayEtherscanLink";
+import { PendingDeployment } from "./PendingDeployment";
 import {SharesInfo} from "./SharesInfo";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
-const HARDHAT_NETWORK_ID = '3';
+const HARDHAT_NETWORK_ID = '5';
 // const HARDHAT_NETWORK_ID = '31337';
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
@@ -68,7 +68,7 @@ export class Dapp extends React.Component {
               Welcome! Your address is <b>{this.state.selectedAddress}</b>
             </p>
             <p>
-              Registered artworks far: {" "}
+              Total registered artworks far: {" "}
             <b>{this.state.registered.toString()}</b>
             </p>
           </div>
@@ -112,15 +112,21 @@ export class Dapp extends React.Component {
         <div className="row">
           <div className="col-12">
           {this.state.stepZero && (
-            <DisplayEtherscanLink
-              latestContractDeployedEtherscan={`https://ropsten.etherscan.io/address/${this.state.cDeployed}`}
-              userAddr={`https://ropsten.etherscan.io/address/${this.state.selectedAddress}#tokentxns`}
+            <PendingDeployment
+              etherscanLink={`https://goerli.etherscan.io/address/${this.state.cDeployed}`}
+              userAddr={`https://goerli.etherscan.io/address/${this.state.selectedAddress}#tokentxns`}
               cDeployed={this.state.cDeployed}
               cName={this.state.cName}
               cSymbol={this.state.cSymbol}
               cSupply="10,000"
               />
           )}
+          </div>
+
+        </div>
+        <div className="row">
+          <div className="col-12">
+            <p><a target="_blank" rel="noreferrer" className="text-success" href="https://github.com/julienbrg/minter">Minter v0.1.0 on Github</a></p>
           </div>
         </div>
       </div>
@@ -162,6 +168,7 @@ export class Dapp extends React.Component {
   }
 
   async _intializeEthers() {
+
     this._provider = new ethers.providers.Web3Provider(window.ethereum);
 
     this._minter = new ethers.Contract(
@@ -593,7 +600,7 @@ export class Dapp extends React.Component {
     }
 
     this.setState({
-      networkError: 'Please switch your Metamask to Ropsten Network'
+      networkError: 'Please switch your Metamask to Goerli Network'
     });
 
     return false;

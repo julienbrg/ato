@@ -7,16 +7,12 @@ export function Register({ Register, name, symbol }) {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-
           const formData = new FormData(event.target);
           const name = formData.get("name");
           const symbol = formData.get("symbol");
-
           if (name && symbol) {
             Register(name, symbol);
           }
-
-
         }}
       >
       <div className="form-group">
