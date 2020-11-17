@@ -68,7 +68,7 @@ export class Dapp extends React.Component {
               Welcome! Your address is <b>{this.state.selectedAddress}</b>
             </p>
             <p>
-              Total registered artworks far: {" "}
+              Total registered artworks so far: {" "}
             <b>{this.state.registered.toString()}</b>
             </p>
           </div>
