@@ -606,3 +606,5 @@ export class Dapp extends React.Component {
     return false;
   }
 }
+
+// umint branch
