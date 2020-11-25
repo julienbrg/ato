@@ -9,18 +9,18 @@ async function main() {
     );
   }
 
-  // Deploy Minter.sol
+  // Deploy Clerk.sol
   const [deployer] = await ethers.getSigners();
   console.log(
     "Deployer wallet address:",
     await deployer.getAddress()
   );
 
-  const Minter = await ethers.getContractFactory("Minter");
-  const minter = await Minter.deploy();
-  await minter.deployed();
+  const Clerk = await ethers.getContractFactory("Clerk");
+  const clerk = await Clerk.deploy();
+  await clerk.deployed();
 
-  console.log("Minter.sol deployed at  ", minter.address);
+  console.log("Clerk.sol deployed at  ", clerk.address);
 
   // Deploy Shares.sol
   const Shares = await ethers.getContractFactory("Shares");
@@ -352,10 +352,10 @@ async function main() {
 
   console.log("Shares.sol deployed at  ", shares.address);
 
-  saveFrontendFiles(minter);
+  saveFrontendFiles(clerk);
 }
 
-function saveFrontendFiles(minter) {
+function saveFrontendFiles(clerk) {
   const fs = require("fs");
   const contractsDir = __dirname + "/../frontend/src/contracts";
 
@@ -365,14 +365,14 @@ function saveFrontendFiles(minter) {
 
   fs.writeFileSync(
     contractsDir + "/contract-address.json",
-    JSON.stringify({ Minter: minter.address }, undefined, 2)
+    JSON.stringify({ Clerk: clerk.address }, undefined, 2)
   );
 
-  const MinterArtifact = artifacts.readArtifactSync("Minter");
+  const ClerkArtifact = artifacts.readArtifactSync("Clerk");
 
   fs.writeFileSync(
-    contractsDir + "/Minter.json",
-    JSON.stringify(MinterArtifact, null, 2)
+    contractsDir + "/Clerk.json",
+    JSON.stringify(ClerkArtifact, null, 2)
   );
 
   const SharesArtifact = artifacts.readArtifactSync("Shares");

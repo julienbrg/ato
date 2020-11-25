@@ -1,17 +1,19 @@
 import React from "react";
 import { ethers } from "ethers";
 import { ContractFactory } from 'ethers';
-import MinterArtifact from "../contracts/Minter.json";
+import ClerkArtifact from "../contracts/Clerk.json";
 import contractAddress from "../contracts/contract-address.json";
 import SharesArtifact from "../contracts/Shares.json";
 import { NoWalletDetected } from "./NoWalletDetected";
 import { ConnectWallet } from "./ConnectWallet";
 import { Loading } from "./Loading";
 import { Register } from "./Register";
-import { PendingDeployment } from "./PendingDeployment";
-import {SharesInfo} from "./SharesInfo";
+import { DisplayMyArtworks } from "./DisplayMyArtworks";
+import { SharesInfo } from "./SharesInfo";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
-import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
+import { WaitingForTx } from "./WaitingForTx";
+import { WaitingForTx2 } from "./WaitingForTx2";
+
 const HARDHAT_NETWORK_ID = '5';
 // const HARDHAT_NETWORK_ID = '31337';
 
@@ -19,22 +21,49 @@ const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 export class Dapp extends React.Component {
   constructor(props) {
+
     super(props);
 
+
     this.initialState = {
+
+      id: undefined,
+
+      s1: {
+          address: undefined,
+          url: undefined,
+          name: undefined,
+          symbol: undefined,
+          supply: undefined
+        },
+
+      s2 : {
+          address: undefined,
+          url: undefined,
+          name: undefined,
+          symbol: undefined,
+          supply: undefined
+          },
+
+      s3 : {
+          address: undefined,
+          url: undefined,
+          name: undefined,
+          symbol: undefined,
+          supply: undefined
+        },
+
       selectedAddress: undefined,
-      registered: undefined,
-      cDeployed: undefined,
-      cSupply: undefined,
-      cSymbol: undefined,
-      cName: undefined,
-      cAddr: undefined,
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
-      stepZero: undefined,
+      registered: undefined,
+      cAddr: undefined,
+
     };
+
     this.state = this.initialState;
+
   }
 
   render() {
@@ -62,15 +91,16 @@ export class Dapp extends React.Component {
         <div className="row">
           <div className="col-12">
             <h1>
-              Minter
+              ĀTO
             </h1>
             <p>
               Welcome! Your address is <b>{this.state.selectedAddress}</b>
             </p>
             <p>
-              Total registered artworks so far: {" "}
-            <b>{this.state.registered.toString()}</b>
+              You have registered {" "}
+            <b>{this.state.registered.toString()}</b> artworks so far.
             </p>
+
           </div>
         </div>
 
@@ -80,7 +110,10 @@ export class Dapp extends React.Component {
           <div className="col-12">
 
           {this.state.txBeingSent && (
-            <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+            <WaitingForTx txHash={this.state.txBeingSent} />
+          )}
+          {this.state.tx2BeingSent && (
+            <WaitingForTx2 txHash={this.state.tx2BeingSent} />
           )}
 
           {this.state.transactionError && (
@@ -109,24 +142,46 @@ export class Dapp extends React.Component {
 
         <hr />
 
-        <div className="row">
-          <div className="col-12">
-          {this.state.stepZero && (
-            <PendingDeployment
-              etherscanLink={`https://goerli.etherscan.io/address/${this.state.cDeployed}`}
-              userAddr={`https://goerli.etherscan.io/address/${this.state.selectedAddress}#tokentxns`}
-              cDeployed={this.state.cDeployed}
-              cName={this.state.cName}
-              cSymbol={this.state.cSymbol}
-              cSupply="10,000"
-              />
-          )}
+
+        <h2>Dashboard</h2>
+        <p><i>Shows my latest artwork</i></p>
+
+        {!this.state.s1.address && (
+          <div className="row">
+            <div className="col-12">
+            <p>You haven't registered any artwork yet.</p>
+
+
+            </div>
+          </div>
+        )}
+
+        {this.state.s1.address && (
+          <div className="row">
+            <div className="col-12">
+            <br />
+            <h4>{this.state.s1.name}</h4>
+            <p>Address: <b><a target="_blank" rel="noreferrer" href = {this.state.s1.url} >{this.state.s1.address}</a></b></p>
+            <p>Supply: <b>{this.state.s1.supply} {this.state.s1.symbol}</b></p>
+            <br />
+            </div>
+          </div>
+        )}
+
+          <div className="row">
+            <div className="col-12">
+            {this.state.id > 0 && (
+
+              <DisplayMyArtworks
+                userAddr={`https://goerli.etherscan.io/address/${this.state.selectedAddress}#tokentxns`}
+                />
+            )}
+            </div>
           </div>
 
-        </div>
         <div className="row">
           <div className="col-12">
-            <p><a target="_blank" rel="noreferrer" className="text-success" href="https://github.com/julienbrg/minter">Minter v0.1.0 on Github</a></p>
+            <p><a target="_blank" rel="noreferrer" className="text-success" href="https://github.com/julienbrg/minter">ĀTO v0.1.1 on Github</a></p>
           </div>
         </div>
       </div>
@@ -171,11 +226,15 @@ export class Dapp extends React.Component {
 
     this._provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    this._minter = new ethers.Contract(
-      contractAddress.Minter,
-      MinterArtifact.abi,
+    this._clerk = new ethers.Contract(
+
+      contractAddress.Clerk,
+      ClerkArtifact.abi,
       this._provider.getSigner(0)
+
     );
+    console.log("Instance of Clerk.sol: ",contractAddress);
+
   }
 
   _startPollingData() {
@@ -189,31 +248,49 @@ export class Dapp extends React.Component {
   }
 
   async _updateRegistered() {
-    const registered = await this._minter.getArtworkData();
-    this.setState({ registered });
-    const cDeployed = await this._minter.getMyLatestRegistration(this.state.selectedAddress);
-      this.setState({ cDeployed });
-      if (this.state.cDeployed == "0x0000000000000000000000000000000000000000") {
-        this.setState({ stepZero: undefined });
-      } else {
-        this.setState({ stepZero: 1 });
-        this._shares = new ethers.Contract(
-        this.state.cDeployed,
+
+    this._clerk = new ethers.Contract(
+
+      contractAddress.Clerk,
+      ClerkArtifact.abi,
+      this._provider.getSigner(0)
+
+    );
+
+    const id = await this._clerk.getMyCreatorID();
+    this.setState ({ id });
+
+    const x = await this._clerk.howManyArtworksDoIHave();
+    this.setState({ x });
+    this.setState({ registered: x.toString() });
+
+    if (this.state.registered > 0) {
+
+      var y = this.state.registered - 1;
+      var s1addr = await this._clerk.getArtworkAddr(this.state.id.toString(),y);
+      this.setState ({ s1addr });
+      if (s1addr === "0x0000000000000000000000000000000000000000") {
+        s1addr = undefined;
+      }
+
+      this._shares1 = new ethers.Contract(
+        s1addr,
         SharesArtifact.abi,
         this._provider.getSigner(0)
       );
 
-      if (this.state.cDeployed) {
-      const cName = await this._shares.tokenName();
-      this.setState({ cName });
+      var s1name = await this._shares1.name();
+      var s1symbol = await this._shares1.symbol();
+      var s1supply = "10,000";
+      var s1url = "https://goerli.etherscan.io/address/" + s1addr + "";
 
-      const cSymbol = await this._shares.tokenTicker();
-      this.setState({ cSymbol });
-
-      const cSupply = await this._shares.totalSupply();
-      this.setState({ cSupply });
-      this.setState({ cSupply });
-      }
+      this.setState({ s1: {
+        address: s1addr,
+        url: s1url,
+        name: s1name,
+        symbol: s1symbol,
+        supply: s1supply
+      } });
     }
   }
 
@@ -547,28 +624,26 @@ export class Dapp extends React.Component {
       const factory = new ContractFactory(abi, bytecode, signer);
       const _name = name;
       const _symbol = symbol;
+      const tx = await factory.deploy(_name, _symbol);
+      this.setState({ cAddr: tx.address });
+      console.log("Deployment tx hash:", tx.deployTransaction.hash);
+      this.setState({ txBeingSent: tx.deployTransaction.hash });
 
-      const contract = await factory.deploy(_name, _symbol);
-      this.setState({ cAddr: contract.address });
-      console.log("Deployment tx hash:", contract.deployTransaction.hash);
-      this.setState({ txBeingSent: contract.deployTransaction.hash });
+      const tx2 = await this._clerk.registerArtwork(this.state.cAddr);
 
-      const tx = await this._minter.registerArtwork(this.state.cAddr);
-
-      const receipt = await tx.wait();
+      const receipt = await tx2.wait();
       if (receipt.status === 0) {
         throw new Error("Transaction failed");
       }
-
       await this._updateRegistered();
 
     } catch (error) {
       if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
         return;
       }
-
       console.error(error);
       this.setState({ transactionError: error });
+
     } finally {
       this.setState({ txBeingSent: undefined });
     }
