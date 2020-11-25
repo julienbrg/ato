@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "../minter/static/js/main.0cc2edc5.chunk.js",
+    "main.js.map": "../minter/static/js/main.0cc2edc5.chunk.js.map",
+    "runtime-main.js": "../minter/static/js/runtime-main.32aae409.js",
+    "runtime-main.js.map": "../minter/static/js/runtime-main.32aae409.js.map",
+    "static/css/2.0404d52f.chunk.css": "../minter/static/css/2.0404d52f.chunk.css",
+    "static/js/2.94a1bc10.chunk.js": "../minter/static/js/2.94a1bc10.chunk.js",
+    "static/js/2.94a1bc10.chunk.js.map": "../minter/static/js/2.94a1bc10.chunk.js.map",
+    "index.html": "../minter/index.html",
+    "static/css/2.0404d52f.chunk.css.map": "/static/css/2.0404d52f.chunk.css.map",
+    "static/js/2.94a1bc10.chunk.js.LICENSE.txt": "/static/js/2.94a1bc10.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "../minterstatic/js/runtime-main.32aae409.js",
+    "../minterstatic/css/2.0404d52f.chunk.css",
+    "../minterstatic/js/2.94a1bc10.chunk.js",
+    "../minterstatic/js/main.0cc2edc5.chunk.js"
+  ]
+}

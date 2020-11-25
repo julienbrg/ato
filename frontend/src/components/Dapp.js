@@ -97,8 +97,10 @@ export class Dapp extends React.Component {
               Welcome! Your address is <b>{this.state.selectedAddress}</b>
             </p>
             <p>
+            {this.state.txBeingSent && (
               You have registered {" "}
             <b>{this.state.registered.toString()}</b> artworks so far.
+)}
             </p>
 
           </div>
