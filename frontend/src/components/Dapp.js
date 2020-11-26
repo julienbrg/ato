@@ -34,7 +34,8 @@ export class Dapp extends React.Component {
           url: undefined,
           name: undefined,
           symbol: undefined,
-          supply: undefined
+          supply: undefined,
+          auctionContract: undefined
         },
 
       s2 : {
@@ -97,10 +98,8 @@ export class Dapp extends React.Component {
               Welcome! Your address is <b>{this.state.selectedAddress}</b>
             </p>
             <p>
-            {this.state.txBeingSent && (
               You have registered {" "}
             <b>{this.state.registered.toString()}</b> artworks so far.
-)}
             </p>
 
           </div>
@@ -301,6 +300,16 @@ export class Dapp extends React.Component {
     try {
 
       this._dismissTransactionError();
+
+
+
+
+
+      const json = "QmRpBruKhCAwpZ9CSPHRhPjPvxTEAoCdum9sSws1MDjwQ6" ;
+      const tokenURI = "https://ipfs.io/ipfs/" + json + "";
+      console.log(tokenURI);
+
+
 
       const abi = [
   {
@@ -626,6 +635,7 @@ export class Dapp extends React.Component {
       const factory = new ContractFactory(abi, bytecode, signer);
       const _name = name;
       const _symbol = symbol;
+      const _auctionContract = "0x0000000000000000000000000000000000000000";
       const tx = await factory.deploy(_name, _symbol);
       this.setState({ cAddr: tx.address });
       console.log("Deployment tx hash:", tx.deployTransaction.hash);

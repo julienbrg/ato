@@ -2,7 +2,6 @@
 pragma solidity ^0.6.0;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Clerk is Ownable {
