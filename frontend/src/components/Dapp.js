@@ -127,7 +127,7 @@ export class Dapp extends React.Component {
 
         <h2>Dashboard</h2>
 
-        {!this.state.registered && (
+        {!this.state.art1.name && (
           <div className="row">
             <div className="col-12">
             <p>You haven't registered any artwork yet.</p>
@@ -137,7 +137,7 @@ export class Dapp extends React.Component {
           </div>
         )}
 
-        {this.state.registered && (
+        {this.state.art1.name && (
 
           <div className="row">
 

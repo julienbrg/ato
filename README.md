@@ -1,10 +1,10 @@
 # ĀTO
 
-ĀTO v0.1.2 allows anyone to register both physical and digital artworks on Ethereum. The shares are then for sale and holders of these shares can win the NFT. 
+ĀTO v0.1.2 allows anyone to register both physical and digital artworks on Ethereum. The shares are then for sale and holders of these shares can win the NFT.
 
 It deploys `Auction.sol`, `Shares.sol`, `NFT.sol`, and register these new instances in `Clerk.sol`.
 
-A demo is available at [https://strat.cc/minter](https://strat.cc/minter).
+A demo is available at [https://strat.cc/ato](https://strat.cc/ato).
 
 ## Install
 
@@ -35,11 +35,11 @@ cd frontend
 npm install
 npm start
 ```
-## Use
+## Usage
 
-Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/) and go to [https://strat.cc/minter](https://strat.cc/minter).
+Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/) and go to [https://strat.cc/ato](https://strat.cc/ato).
 
-Choose a name and a symbol, then click on 'Proceed' to deploy Shares.sol on Goerli.  
+Choose a name and a symbol, then click on 'Proceed'.  
 
 ## Contact
 
