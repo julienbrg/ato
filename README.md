@@ -1,6 +1,8 @@
-# Minter
+# ĀTO
 
-Minter (v0.1.0) allows anyone to issue 10,000 units of an ERC-20.
+ĀTO v0.1.2 allows anyone to register both physical and digital artworks on Ethereum. The shares are then for sale and holders of these shares can win the NFT. 
+
+It deploys `Auction.sol`, `Shares.sol`, `NFT.sol`, and register these new instances in `Clerk.sol`.
 
 A demo is available at [https://strat.cc/minter](https://strat.cc/minter).
 
@@ -23,7 +25,7 @@ npx hardhat test
 Add your [Infura](https://infura.io/) project ID and your account private key in `hardhat.config.js`.
 
 ```
-npx hardhat run scripts/deploy.js --network goerli
+npx hardhat run scripts/deployer.js --network goerli
 ```
 
 ## Run

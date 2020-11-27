@@ -3,6 +3,7 @@ import React from "react";
 export function Register({ Register, name, symbol }) {
   return (
     <div>
+      <hr />
       <h2>Register your artwork</h2>
       <form
         onSubmit={(event) => {

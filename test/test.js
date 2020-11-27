@@ -40,9 +40,16 @@ describe("Clerk", function () {
   describe("Transactions", function () {
 
     it("should register 1 artwork", async function () {
-      await clerk.registerArtwork("0x0f336102366b969c1eA3716CccD898Ca8779D521");
+      await clerk.registerArtwork("0x0f336102366b969c1eA3716CccD898Ca8779D521","0x0f336102366b969c1eA3716CccD898Ca8779D521");
       const art = await clerk.getArtworkAddr(1,0);
       expect(art).to.equal("0x0f336102366b969c1eA3716CccD898Ca8779D521");
     });
+
+    it("should register with NFT instance", async function () {
+      await clerk.registerArtwork("0x0000000000000000000000000000000000000000","0x0f336102366b969c1eA3716CccD898Ca8779D521");
+      const art = await clerk.getNFTAddr(1,0);
+      expect(art).to.equal("0x0f336102366b969c1eA3716CccD898Ca8779D521");
+    });
+
   });
 });

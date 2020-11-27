@@ -15,7 +15,7 @@ task("accounts", "Prints the list of accounts", async () => {
  */
 
 const INFURA_PROJECT_ID = "89c4e0d4c51840d382a448717cd22b98";
-const GOERLI_PRIVATE_KEY = "ecfac123a8856ec3a3e5c99eebec1351bf170b8a117ea37daa6f39208e5a5756";
+const GOERLI_PRIVATE_KEY = "c5e8f61d1ab959b397eecc0a37a6517b8e67a0e7cf1f4bce5591f3ed80199122";
 
 module.exports = {
   solidity: "0.6.2",

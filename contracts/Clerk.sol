@@ -10,6 +10,8 @@ contract Clerk is Ownable {
     struct Artwork
     {
         address sharesInstance;
+        address nftInstance;
+        address auctionInstance;
         uint256 date;
     }
 
@@ -23,13 +25,13 @@ contract Clerk is Ownable {
     uint256 public numCreators;
     mapping (uint256 => Creator) public creators;
 
-    event Registered(address indexed _creator,address indexed _sharesInstance);
+    event Registered(address indexed _creator, address indexed _sharesInstance);
 
     constructor() public {
         numCreators++;
     }
 
-    function registerArtwork(address _sharesInstance) public
+    function registerArtwork(address _sharesInstance, address _nftInstance, address _auctionInstance) public
     {
         uint256 creatorID = getMyCreatorID();
         if (creatorID == 0) {
@@ -41,6 +43,8 @@ contract Clerk is Ownable {
         a.artworks[a.numArtworks++] = Artwork({
 
             sharesInstance: _sharesInstance,
+            nftInstance: _nftInstance,
+            auctionInstance: _auctionInstance,
             date: now
 
         });
@@ -53,10 +57,22 @@ contract Clerk is Ownable {
         creators[creatorID] = Creator(msg.sender, 0);
     }
 
-    function getArtworkAddr(uint256 creatorID, uint256 artworkID) public view returns (address sharesInstance)
+    function getSharesInstance(uint256 creatorID, uint256 artworkID) public view returns (address sharesInstance)
     {
         Creator storage y = creators[creatorID];
         return y.artworks[artworkID].sharesInstance;
+    }
+
+    function getNFTInstance(uint256 creatorID, uint256 artworkID) public view returns (address nftInstance)
+    {
+        Creator storage y = creators[creatorID];
+        return y.artworks[artworkID].nftInstance;
+    }
+
+    function getAuctionInstance(uint256 creatorID, uint256 artworkID) public view returns (address auctionInstance)
+    {
+        Creator storage y = creators[creatorID];
+        return y.artworks[artworkID].auctionInstance;
     }
 
     function howManyArtworksDoIHave() public view returns (uint256 num)
