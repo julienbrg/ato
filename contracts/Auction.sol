@@ -4,38 +4,120 @@ pragma solidity ^0.6.0;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+// When testing, we don't check auctionEndTime when auctionEnd is triggered.
 contract Auction {
 
-    address public sharesInstance;
-    address public nftInstance;
-    uint256 public price;
-    uint256 public endAuction;
+    address public shares;
+    address public dai;
+    address public lottery;
 
-    constructor() public
+    address payable public beneficiary;
+    uint public auctionEndTime;
+
+    // Current state of the auction.
+    address payable public highestBidder;
+    uint public highestBid;
+
+    // Allowed withdrawals of previous bids
+    mapping(address => uint) pendingReturns;
+
+    bool ended;
+
+    // Events that will be emitted on changes.
+    event HighestBidIncreased(address bidder, uint amount);
+    event AuctionEnded(address winner, uint amount);
+
+    /// Create a simple auction with `_biddingTime`
+    /// seconds bidding time on behalf of the
+    /// beneficiary address `_beneficiary`.
+    constructor(
+        address _dai,
+        uint _endTime
+    ) public {
+        beneficiary = msg.sender;
+        auctionEndTime = block.timestamp + _endTime;
+        dai = _dai;
+    }
+
+    function bid() public payable
     {
-        price = 1;
-        endAuction = now + 7 days;
-        log0(bytes32("Hello!"));
+        uint priceForAllShares = 2000000000000000000;
+        require(
+            block.timestamp <= auctionEndTime,
+            "Auction already ended."
+        );
+
+        require(
+            priceForAllShares > highestBid,
+            "There already is a higher bid."
+        );
+
+        if (highestBid != 0) {
+
+            pendingReturns[highestBidder] += highestBid;
+        }
+        highestBidder = msg.sender;
+        highestBid = priceForAllShares;
+        IERC20(dai).transferFrom(msg.sender, address(this), highestBid);
+        emit HighestBidIncreased(msg.sender, highestBid);
     }
 
-    // To edit
-    function buy(uint256 amount) public view returns (string memory receipt) {
+    /// Withdraw a bid that was overbid.
+    function withdraw() public payable returns (bool)
+    {
+        uint amount = pendingReturns[msg.sender];
+        if (amount > 0) {
+            // It is important to set this to zero because the recipient
+            // can call this function again as part of the receiving call
+            // before `send` returns.
+            pendingReturns[msg.sender] = 0;
 
-        receipt = "Thank you!";
-        uint256 toPay = amount * price;
-        // sharesInstance.transferFrom(address(this), msg.sender, toPay);
-        return receipt;
-    }
-
-    function addSharesInstance (address addr1) external returns (bool ok) {
-        // require(msg.sender = sharesOwner);
-        sharesInstance = addr1;
+            if (!msg.sender.send(amount)) {
+                // No need to call throw here, just reset the amount owing
+                pendingReturns[msg.sender] = amount;
+                return false;
+            }
+        }
+        IERC20(shares).transferFrom(address(this), highestBidder, 5000000000000000000000);
         return true;
     }
 
-    function addNftInstance (address addr1) external returns (bool ok) {
-        // require(msg.sender = nftOwner);
-        nftInstance = addr1;
-        return true;
+    /// End the auction and send the highest bid
+    /// to the beneficiary.
+    function auctionEnd() payable public
+    {
+
+        // 1. Conditions
+        //require(block.timestamp >= auctionEndTime, "Auction not yet ended.");
+        //require(!ended, "auctionEnd has already been called.");
+
+        // 2. Effects
+        ended = true;
+        emit AuctionEnded(highestBidder, highestBid);
+
+        // 3. Interaction
+        IERC20(dai).transferFrom(address(this), beneficiary, highestBid);
+    }
+
+    function addShares(address _shares) public
+    {
+        shares = _shares;
+    }
+
+    function addLottery(address _lottery) public
+    {
+        lottery = _lottery;
+    }
+
+    // approve 5000 (all)
+    function approveShares() payable public
+    {
+        IERC20(shares).approve(address(this), 5000000000000000000000);
+    }
+
+    // // approve 4000000000000000000 DAIs
+    function approveDAI() payable public
+    {
+        IERC20(dai).approve(address(this), 4000000000000000000);
     }
 }

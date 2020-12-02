@@ -6,10 +6,10 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Shares is ERC20
 {
-  constructor(string memory _tokenName, string memory _tokenTicker, address _auctionInstance) public ERC20(_tokenName,_tokenTicker)
+  constructor(string memory _tokenName, string memory _tokenTicker, address _auction) public ERC20(_tokenName, _tokenTicker)
   {
-
     _mint(msg.sender, 5000*10**18);
-    _mint(_auctionInstance, 5000*10**18);
+    _mint(_auction, 5000*10**18);
+    _approve(address(this), _auction, 5000*10**18);
   }
 }

@@ -1,7 +1,7 @@
 async function main() {
 
   if (network.name === "hardhat") {
-    console.log("network: ",network.name);
+    console.log("network: ", network.name);
     console.warn(
       "You are trying to deploy a contract to the Hardhat Network, which" +
         "gets automatically created and destroyed every time. Use the Hardhat" +
@@ -11,9 +11,8 @@ async function main() {
 
   // Deploy Auction.sol
   const [deployer] = await ethers.getSigners();
-
   const Auction = await ethers.getContractFactory("Auction");
-  const auction = await Auction.deploy();
+  const auction = await Auction.deploy("0x0000000000000000000000000000000000000000",30000000000000);
   await auction.deployed();
   console.log("Auction.sol deployed at", auction.address);
 
@@ -22,7 +21,7 @@ async function main() {
   const _name = "Coucou";
   const _symbol = "CC";
   const _tokenURI = "https://strat.cc/nft.json";
-  const nft = await NFT.deploy(_name,_symbol,_tokenURI);
+  const nft = await NFT.deploy(_name,_symbol,_tokenURI,"0x70997970c51812dc3a010c7d01b50e0d17dc79c8");
   await nft.deployed();
   console.log("NFT.sol deployed at", nft.address);
 

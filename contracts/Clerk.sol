@@ -2,7 +2,6 @@
 pragma solidity ^0.6.0;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Clerk is Ownable {
@@ -13,6 +12,7 @@ contract Clerk is Ownable {
         address nftInstance;
         address auctionInstance;
         uint256 date;
+        bool verified;
     }
 
     struct Creator
@@ -45,7 +45,10 @@ contract Clerk is Ownable {
             sharesInstance: _sharesInstance,
             nftInstance: _nftInstance,
             auctionInstance: _auctionInstance,
-            date: now
+            date: now,
+
+            // True when registered during the tests
+            verified: true
 
         });
         emit Registered(msg.sender,_sharesInstance);
@@ -83,9 +86,7 @@ contract Clerk is Ownable {
                 num = creators[id].numArtworks;
                 return num;
             }
-
         }
-
     }
 
     function getMyCreatorID() public view returns (uint256 _id)
@@ -96,6 +97,19 @@ contract Clerk is Ownable {
                 _id = id;
                 return _id;
             }
+        }
+    }
+
+    function verify(uint256 creatorID, uint256 artworkID) onlyOwner() public
+    {
+        Creator storage y = creators[creatorID];
+        y.artworks[artworkID].verified = true;
+    }
+
+    function isThisArtworkVerified(uint256 creatorID, uint256 artworkID) public view returns(bool)
+    {
+        if (creators[creatorID].artworks[artworkID].verified == true) {
+            return true;
         }
     }
 }

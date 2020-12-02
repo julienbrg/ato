@@ -32,7 +32,7 @@ export function Register({ Register, name, symbol }) {
         <label>Symbol</label>
         <input className="form-control" type="text" name="symbol" placeholder="ML" required />
       </div>
-      <input className="btn btn-primary" type="submit" value="Proceed" />
+      <input className="btn-lg btn-primary" type="submit" value="Proceed" />
       </form>
       </div>
   );
