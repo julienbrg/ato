@@ -1358,42 +1358,6 @@
         "ATO"
       ]
     },
-    "/Users/ju/Desktop/ato/contracts/Shares.sol": {
-      "lastModificationDate": 1606822692587,
-      "sourceName": "contracts/Shares.sol",
-      "solcConfig": {
-        "version": "0.6.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol",
-        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
-      ],
-      "versionPragmas": [
-        "^0.6.0"
-      ],
-      "artifacts": [
-        "Shares"
-      ]
-    },
     "/Users/ju/Desktop/ato/contracts/NFT.sol": {
       "lastModificationDate": 1606822681392,
       "sourceName": "contracts/NFT.sol",
@@ -1538,42 +1502,6 @@
         "DAI"
       ]
     },
-    "/Users/ju/Desktop/ato/contracts/Clerk.sol": {
-      "lastModificationDate": 1606898434684,
-      "sourceName": "contracts/Clerk.sol",
-      "solcConfig": {
-        "version": "0.6.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol",
-        "@openzeppelin/contracts/access/Ownable.sol"
-      ],
-      "versionPragmas": [
-        "^0.6.0"
-      ],
-      "artifacts": [
-        "Clerk"
-      ]
-    },
     "/Users/ju/Desktop/ato/contracts/Auction.sol": {
       "lastModificationDate": 1606911909994,
       "sourceName": "contracts/Auction.sol",
@@ -1608,6 +1536,78 @@
       ],
       "artifacts": [
         "Auction"
+      ]
+    },
+    "/Users/ju/Desktop/ato/contracts/Shares.sol": {
+      "lastModificationDate": 1606918748338,
+      "sourceName": "contracts/Shares.sol",
+      "solcConfig": {
+        "version": "0.6.2",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol",
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "Shares"
+      ]
+    },
+    "/Users/ju/Desktop/ato/contracts/Clerk.sol": {
+      "lastModificationDate": 1606931104983,
+      "sourceName": "contracts/Clerk.sol",
+      "solcConfig": {
+        "version": "0.6.2",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "Clerk"
       ]
     }
   }

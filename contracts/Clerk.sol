@@ -47,8 +47,7 @@ contract Clerk is Ownable {
             auctionInstance: _auctionInstance,
             date: now,
 
-            // True when registered during the tests
-            verified: true
+            verified: false
 
         });
         emit Registered(msg.sender,_sharesInstance);

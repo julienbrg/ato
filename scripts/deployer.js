@@ -9,12 +9,24 @@ async function main() {
     );
   }
 
+  // // Deploy DAI.sol
+  const DAI = await ethers.getContractFactory("DAI");
+  const dai = await DAI.deploy();
+  await dai.deployed();
+  console.log("DAI.sol deployed at", dai.address);
+
   // Deploy Auction.sol
   const [deployer] = await ethers.getSigners();
   const Auction = await ethers.getContractFactory("Auction");
   const auction = await Auction.deploy("0x0000000000000000000000000000000000000000",30000000000000);
   await auction.deployed();
   console.log("Auction.sol deployed at", auction.address);
+
+  // Deploy Lottery.solidity
+  const Lottery = await ethers.getContractFactory("Lottery");
+  const lottery = await Lottery.deploy();
+  await lottery.deployed();
+  console.log("Lottery.sol deployed at", lottery.address);
 
   // Deploy NFT.sol
   const NFT = await ethers.getContractFactory("NFT");
@@ -38,6 +50,7 @@ async function main() {
   console.log("Clerk.sol deployed at", clerk.address);
 
   saveFrontendFiles(auction);
+  saveFrontendFiles(lottery);
   saveFrontendFiles(nft);
   saveFrontendFiles(shares);
   saveFrontendFiles(clerk);
@@ -49,6 +62,14 @@ function saveFrontendFiles(auction) {
   fs.writeFileSync(
     contractsDir + "/Auction.json",
     JSON.stringify(AuctionArtifact, null, 2)
+  );
+}
+
+function saveFrontendFiles(lottery) {
+  const LotteryArtifact = artifacts.readArtifactSync("Lottery");
+  fs.writeFileSync(
+    contractsDir + "/Lottery.json",
+    JSON.stringify(LotteryArtifact, null, 2)
   );
 }
 
