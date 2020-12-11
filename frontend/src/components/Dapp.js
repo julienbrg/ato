@@ -31,7 +31,6 @@ export class Dapp extends React.Component {
 
     super(props);
 
-
     this.initialState = {
 
       id: undefined,
@@ -54,11 +53,16 @@ export class Dapp extends React.Component {
           name: undefined,
           author: undefined,
           symbol: undefined,
+          description: undefined,
           supply: undefined,
           nftImage: undefined,
           auctionInstance: undefined,
           auctionURL: undefined,
-          secondsLeft: undefined
+          rate: undefined,
+          daysLeft: undefined,
+          hoursLeft: undefined,
+          minutesLeft: undefined,
+          secondsLeft: undefined,
         },
 
       selectedAddress: undefined,
@@ -95,7 +99,6 @@ export class Dapp extends React.Component {
     return <Loading />;
     }
 
-    // console.log(this.state.art1.nftImage);
     return (
 
       <div className="container p-4">
@@ -121,39 +124,52 @@ export class Dapp extends React.Component {
 
           <div className="row">
 
-            <div className="col-3">
+            <div className="col-4">
 
               <img alt="nft" src = {this.state.forSale1.nftImage} className ="img-thumbnail"></img>
 
-              </div>
-              <div className="col-9">
+            </div>
+
+            <div className="col-8">
 
               <h4>{this.state.forSale1.name}</h4>
               <p><small>By <a href = {this.state.forSale1.authorURL} >{this.state.forSale1.author}</a></small></p>
-              <p>Available shares<b>: {this.state.forSale1.supply} {this.state.forSale1.symbol}</b></p>
-
-              <p>Time left: <b>{this.state.forSale1.secondsLeft} seconds</b></p>
-
-              <button type="button" className="btn-sm btn-success mr-md-3" onClick={() => this._Bid()} >Buy</button>
-
-              <button type="button" className="btn-sm btn-warning mr-md-3" onClick={() => this._auctionEnd()} >Stop auction</button>
-
-              <button type="button" className="btn-sm btn-danger mr-md-3" onClick={() => this._withdraw()}>Withdraw</button>
-
+              <p>Available supply<b>: {this.state.forSale1.supply} shares</b></p>
+              <p>Price: <b>{this.state.forSale1.rate} DAI</b> per share</p>
+              <p>Time left: <b>{this.state.forSale1.daysLeft}</b> days <b>{this.state.forSale1.hoursLeft}</b> hours <b>{this.state.forSale1.minutesLeft}</b> minutes <b>{this.state.forSale1.secondsLeft}</b> seconds</p>
               <br />
+              <form>
+                <label>Quantity:</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  step="1"
+                  name="volume"
+                  required
+                />
+                <br />
+                <button type="button" className="btn-lg btn-success mr-md-3" onClick={() => this._Buy()} >Buy</button>
+                <button type="button" className="btn btn-info mr-md-3" onClick={() => this._Buy()} >Pay in crypto and do the made-in-France double-KYC dance</button>
 
+              </form>
             </div>
-
           </div>
 
         )}
+        {this.state.forSale1.name && (
+          <div className="row">
+          <div className="col-12">
 
 
+          <br />
 
+          <h5>Description</h5>
+          <p>{this.state.forSale1.description}</p>
+
+        </div></div>
+        )}
 
         <br />
-
-
 
         <div className="row">
           <div className="col-12">
@@ -334,105 +350,74 @@ export class Dapp extends React.Component {
 
   async _updateRegistered() {
 
-    // this._clerk = new ethers.Contract(
-    //
-    //   contractAddress.Clerk,
-    //   ClerkArtifact.abi,
-    //   this._provider.getSigner(0)
-    //
-    // );
-    //
-    // var isAdmin = await this._clerk.owner();
-    //
-    // console.log("isAdmin:", isAdmin);
-    // console.log("selectedAddress:", this.state.selectedAddress);
-    //
-    // // await isAdmin.wait();
-    //
-    // this.setState({owner:isAdmin});
-
-    // if (isAdmin = "0xc783df8a850f42e7F7e57013759C285caa701eB6") {
-    //   console.log("adminInTheHouse");
-    //   this.setState({adminInTheHouse:true});
-    //
-    // }
-
-
-    // load the Marketplace data
-
-    // Is there any verified artwork ?
+    // Load the Marketplace data
 
     var a1x = await this._clerk.isThisArtworkVerified(1,2);
     // console.log(a1x);
     if (a1x === true) {
 
-      var ax2 = await this._clerk.getAuctionInstance(1,2);
+    var ax2 = await this._clerk.getAuctionInstance(1,2);
 
-      this._auction = new ethers.Contract(
-        ax2,
-        AuctionArtifact.abi,
-        this._provider.getSigner(0)
-      );
+    this._auction = new ethers.Contract(
+      ax2,
+      AuctionArtifact.abi,
+      this._provider.getSigner(0)
+    );
 
-      console.log("ax2 (auction):",ax2);
+    var url1 = "https://goerli.etherscan.io/address/" + ax2 + "";
+    var cb = await this._provider.getBlockNumber();
+    console.log("Current block:",cb);
 
-      // 0x398a7a447e4d9007fa1a5f82f2d07f0b369bd26f
+    var rateX = await this._auction.highestBid();
+    var rateY = rateX / 1000000000000000000;
 
-      var url1 = "https://goerli.etherscan.io/address/" + ax2 + "";
-      //var a1 = await this._auction.auctionEndTime;
-      //var cb = await this._provider.getBlockNumber();
-      //console.log("Current block:",cb);
+    var sharesInstance2 = await this._clerk.getSharesInstance(1,2);
 
-      var sharesInstance2 = await this._clerk.getSharesInstance(1,2);
+    this._shares = new ethers.Contract(
+      sharesInstance2,
+      SharesArtifact.abi,
+      this._provider.getSigner(0)
+    );
 
-      this._shares = new ethers.Contract(
-        sharesInstance2,
-        SharesArtifact.abi,
-        this._provider.getSigner(0)
-      );
+    var name3 = await this._shares.name();
+    var symbol3 = await this._shares.symbol();
 
-      var name3 = await this._shares.name();
-      var symbol3 = await this._shares.symbol();
-      //await name3.wait();
-      //console.log("name3", name3);
-      //var bal3 = await this._shares.balanceOf(sharesInstance2);
-      //console.log("bal3: ",BigNumber.from(bal3));
-      //cBalance = BigNumber.from(bal3);
-      //console.log("cBalance: ",cBalance);
+    var bal4 = await this._shares.balanceOf(sharesInstance2);
+    var bal = bal4 / 1000000000000000000;
 
-      var author = "micheal.jackson.eth"
-      var authorURL = "https://etherscan.io/address/strat.eth" + author ;
+    var author = "micheal.jackson.eth";
 
+    var authorURL = "https://etherscan.io/address/" + author ;
 
-      this.setState({ forSale1: {
-        name: name3, // from shares
-        author: author,
-        authorURL: authorURL, // from auction's beneficiary
-        symbol: symbol3, // from shares
-        supply: "5,000", // from auction
-        nftImage: "https://strat.cc/load-runner.png", // from nft
-        auctionInstance: ax2, // from clerk --> we want
-        auctionURL: url1, // --> we want
-        secondsLeft: "60" // from auction --> we want
-      } });
-      //console.log("auctionInstance:",auctionInstance);
-    }
+    this.setState({ forSale1: {
+      name: name3, // from shares
+      author: author,
+      authorURL: authorURL, // from auction's beneficiary
+      symbol: symbol3, // from shares
+      supply: bal, // from auction
+      nftImage: "https://strat.cc/load-runner.png", // from nft
+      auctionInstance: ax2, // from clerk --> we want
+      auctionURL: url1, // --> we want
+      rate: 0.01,
+      daysLeft: 0,
+      hoursLeft: 0,
+      minutesLeft: 0,
+      secondsLeft: 1,
+      description: "I'm a Load Runner player since the age of six. With this amazing unique screenshot, I wanted to express the harsh of the struggle against the ever-growing threat of machines taking over our lives, a super important issue that mankind is facing today. My character is stuck. Let's just reboot everything."
+    } });
+  }
 
     // load the Dashboard data
 
     const id = await this._clerk.getMyCreatorID();
     this.setState ({ id });
 
-    // console.log("id:",this.state.id.toString());
-
     const x = await this._clerk.howManyArtworksDoIHave();
     this.setState({ x });
     this.setState({ registered: x.toString() });
-    //console.log("registered:",this.state.registered);
 
     if (this.state.registered > 0) {
 
-      // Get artwork sharesInstance and auctionInstance
       var y = this.state.registered - 1;
       var auctionInstance = await this._clerk.getAuctionInstance(this.state.id.toString(),y);
       if (auctionInstance === "0x0000000000000000000000000000000000000000") {
@@ -481,16 +466,8 @@ export class Dapp extends React.Component {
         this._provider.getSigner(0)
       );
 
-      //var tokenURI = await this._nft.tokenURI(1);
-
-
-
-      //console.log("nftImage:", nftImage);
-
       var nftURL = "https://goerli.etherscan.io/address/" + nftInstance + "";
 
-
-      // Update all states
       this.setState({ art1: {
         name: sharesName,
         symbol: sharesSymbol,
@@ -505,7 +482,6 @@ export class Dapp extends React.Component {
         verified: artworkVerified
       } });
     }
-
   }
 
   async _Register(name, symbol) {
@@ -515,7 +491,6 @@ export class Dapp extends React.Component {
       this._dismissTransactionError();
 
       const signer = this._provider.getSigner(0);
-
 
       // User deploy Auction.sol
       const abi = [
@@ -741,8 +716,8 @@ export class Dapp extends React.Component {
       const prepareAuction = new ContractFactory(abi, bytecode, signer);
       const auction = await prepareAuction.deploy("0x398a7a447e4d9007fa1a5f82f2d07f0b369bd26f",30000000000000);
 
-      // Show 'waiting for tx' msg
       this.setState({ txBeingSent: auction.deployTransaction.hash });
+
       // User deploy Shares.sol
       const sharesABI = [
 	{
@@ -1054,7 +1029,6 @@ export class Dapp extends React.Component {
       await shares.deployed();
       console.log("Shares.sol deployed:", shares.address);
 
-
       // Approve shares to auction
 
       this._auction = new ethers.Contract(
@@ -1065,8 +1039,6 @@ export class Dapp extends React.Component {
 
        const addShares = await this._auction.addShares(shares.address);
        await addShares.wait();
-
-
 
       // User deploy Lottery.sol
       const lotteryABI = [
@@ -1159,7 +1131,6 @@ export class Dapp extends React.Component {
 };
       const prepareLottery = new ContractFactory(lotteryABI, lotteryBytecode, signer);
       const lottery = await prepareLottery.deploy();
-
 
       // User deploy NFT.sol
       const nftABI = [
@@ -1600,7 +1571,6 @@ export class Dapp extends React.Component {
       const _lottery = "0x0000000000000000000000000000000000000000";
       const nft = await prepareNFT.deploy(_name, _symbol, _tokenURI, _lottery);
 
-
       // User approves the auction contract
       this._shares = new ethers.Contract(
         shares.address,
@@ -1610,20 +1580,13 @@ export class Dapp extends React.Component {
 
       const approveMyShares = await this._shares.approve(auction.address, BigNumber.from("5000000000000000000000"));
 
-
-
-
-      // Send nftInstance and sharesInstance to Clerk
       const register = await this._clerk.registerArtwork(shares.address,nft.address,auction.address);
 
-
       // Wait for deployments
-
 
       await approveMyShares.wait();
       console.log("Auction contract approved.");
 
-      //await lottery.wait();
       console.log("Lottery.sol deployed:", lottery.address);
 
       await nft.deployed();
@@ -1638,8 +1601,6 @@ export class Dapp extends React.Component {
         throw new Error("Transaction failed");
       }
 
-
-
       await this._updateRegistered();
 
     } catch (error) {
@@ -1651,18 +1612,15 @@ export class Dapp extends React.Component {
 
     } finally {
 
-      // Remove 'waiting for tx' msg
       this.setState({ txBeingSent: undefined });
     }
   }
 
-  async _Bid() {
+  async _Buy() {
 
     try {
 
       this._dismissTransactionError();
-
-      //const signer = this._provider.getSigner(0);
 
       // Approve DAI
       this._dai = new ethers.Contract(
@@ -1670,11 +1628,9 @@ export class Dapp extends React.Component {
         DAIArtifact.abi,
         this._provider.getSigner(0)
       );
-      //console.log("this.state.forSale1.auctionInstance:",this.state.forSale1.auctionInstance);
 
       const approveMyDAI = await this._dai.approve(this.state.forSale1.auctionInstance, BigNumber.from("400000000000000000000"));
       await approveMyDAI.wait();
-      //console.log("this.state.forSale1.auctionInstance:",this.state.forSale1.auctionInstance);
 
       // bid
       const bid = await this._auction.bid();
@@ -1695,7 +1651,6 @@ export class Dapp extends React.Component {
 
     } finally {
 
-      // Remove 'waiting for tx' msg
       this.setState({ txBeingSent: undefined });
     }
   }
@@ -1704,8 +1659,6 @@ export class Dapp extends React.Component {
     try {
 
       this._dismissTransactionError();
-
-
 
       // trigger auctionEnd
 
@@ -1737,28 +1690,15 @@ export class Dapp extends React.Component {
 
     } finally {
 
-      // Remove 'waiting for tx' msg
       this.setState({ txBeingSent: undefined });
     }
-
-
-
-
-
   }
-
 
   async _withdraw() {
 
     try {
 
       this._dismissTransactionError();
-
-      // trigger auctionEnd
-
-
-
-
 
       this._auction = new ethers.Contract(
         this.state.forSale1.auctionInstance,
@@ -1767,11 +1707,40 @@ export class Dapp extends React.Component {
       );
 
       const approveSh = await this._auction.approveShares();
-await approveSh.wait();
+      await approveSh.wait();
       const withdraw = await this._auction.withdraw();
 
       const receipt = await withdraw.wait();
 
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+
+      await this._updateRegistered();
+
+    } catch (error) {
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+      console.error(error);
+      this.setState({ transactionError: error });
+
+    } finally {
+
+      this.setState({ txBeingSent: undefined });
+    }
+  }
+
+
+  async _Admin(creatorID, artworkID) {
+
+    try {
+
+      this._dismissTransactionError();
+
+      const verif = await this._clerk.verify(creatorID,artworkID);
+
+      const receipt = await verif.wait();
 
 
       if (receipt.status === 0) {
@@ -1789,55 +1758,9 @@ await approveSh.wait();
 
     } finally {
 
-      // Remove 'waiting for tx' msg
       this.setState({ txBeingSent: undefined });
     }
-
-
-
-
-
   }
-
-
-
-async _Admin(creatorID, artworkID) {
-
-  try {
-
-    this._dismissTransactionError();
-
-
-
-
-    const verif = await this._clerk.verify(creatorID,artworkID);
-
-    //console.log("registred:",this.state.registered);
-    //console.log("id:",this.state.id);
-
-    const receipt = await verif.wait();
-
-
-    if (receipt.status === 0) {
-      throw new Error("Transaction failed");
-    }
-
-    await this._updateRegistered();
-
-  } catch (error) {
-    if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
-      return;
-    }
-    console.error(error);
-    this.setState({ transactionError: error });
-
-  } finally {
-
-    // Remove 'waiting for tx' msg
-    this.setState({ txBeingSent: undefined });
-  }
-
-}
 
   _dismissTransactionError() {
     this.setState({ transactionError: undefined });

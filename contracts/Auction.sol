@@ -121,3 +121,107 @@ contract Auction {
         IERC20(dai).approve(address(this), 4000000000000000000);
     }
 }
+
+/*
+
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.6.0;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol";
+
+// In v0.1.3 Auction is a sale contract.
+
+contract Auction {
+
+    address public shares;
+    address public dai;
+    address public lottery;
+
+    address payable public beneficiary;
+    uint public end;
+    uint public rate;
+    uint public supply;
+
+    struct Trade
+    {
+        address buyer;
+        uint volume;
+    }
+    uint public numTrades;
+    mapping (uint => Trade) public trades;
+
+    enum Status {Created, Started, SoldOut}
+    Status status;
+
+    constructor (address _dai) public
+    {
+        beneficiary = msg.sender;
+        dai = _dai;
+        status = Status.Created;
+        rate = 10000000000000000;
+    }
+
+    function buy(uint _volume) public payable
+    {
+        uint volume = _volume;
+
+        require(
+            block.timestamp <= end,
+            "The sale is over."
+        );
+
+        require(
+            block.timestamp <= end,
+            "Sold out."
+        );
+
+        require(
+            volume <= supply,
+            "Volume too high."
+        );
+
+        uint total = (rate / 10**18) * volume;
+        IERC20(dai).transferFrom(msg.sender, beneficiary, total);
+
+        supply -= volume;
+        if (supply == 0) {
+            status = Status.SoldOut;
+        }
+        uint id = numTrades++;
+        trades[id] = Trade(msg.sender, volume);
+        numTrades++;
+
+        IERC20(shares).transferFrom(address(this), msg.sender, volume);
+    }
+
+    // to remove
+    function stop() public
+    {
+        end = block.timestamp;
+    }
+
+    function addShares(address _shares) public
+    {
+        shares = _shares;
+    }
+
+    function addLottery(address _lottery) public
+    {
+        lottery = _lottery;
+    }
+
+    function approveShares() payable public
+    {
+        supply = IERC20(shares).balanceOf(address(this));
+        IERC20(shares).approve(address(this), supply);
+        status = Status.Started;
+        end = block.timestamp + 15 days;
+    }
+
+
+}
+
+// vol = 1000000000000000000000 (1000 DAI)
+// rate = 10000000000000000 (0.01 DAI)
+
+ */

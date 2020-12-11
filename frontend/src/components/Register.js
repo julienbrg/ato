@@ -11,14 +11,16 @@ export function Register({ Register, name, symbol }) {
           const formData = new FormData(event.target);
           const name = formData.get("name");
           const symbol = formData.get("symbol");
+          const rate = formData.get("rate");
+          const volume = formData.get("volume");
           if (name && symbol) {
             Register(name, symbol);
           }
         }}
       >
       <div className="form-group">
-        <p>Choose a name and a symbol for your artwork, then click on 'Proceed' to register it.</p>
-        <label>Name</label>
+        <p>Click on 'Proceed' to register your artwork.</p>
+        <label>Name:</label>
         <input
           className="form-control"
           type="text"
@@ -29,9 +31,18 @@ export function Register({ Register, name, symbol }) {
         />
       </div>
       <div className="form-group">
-        <label>Symbol</label>
+        <label>Symbol:</label>
         <input className="form-control" type="text" name="symbol" placeholder="ML" required />
       </div>
+      <div className="form-group">
+        <label>Price per share (in USD):</label>
+        <input className="form-control" type="text" name="rate" placeholder="0.01" required />
+      </div>
+      <div className="form-group">
+        <label>JSON file URL</label>
+        <input className="form-control" type="text" name="volume" placeholder="http://example.com/monalisa.json" required />
+      </div>
+      <br />
       <input className="btn-lg btn-primary" type="submit" value="Proceed" />
       </form>
       </div>
