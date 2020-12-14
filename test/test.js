@@ -17,10 +17,6 @@ describe("Āto", function () {
 
     [creator, buyer, team, ...addrs] = await ethers.getSigners();
 
-    ATO = await ethers.getContractFactory("ATO");
-    ato = await ATO.deploy();
-    await ato.deployed();
-
     DAI = await ethers.getContractFactory("DAI");
     dai = await DAI.deploy();
     await dai.deployed();
@@ -48,12 +44,6 @@ describe("Āto", function () {
   });
 
   describe("Deployments", function () {
-
-    it("ATO.sol is deployed", async function () {
-      const res7 = await dai.balanceOf(creator.address);
-      const res8 = res7._hex;
-      expect(res8).to.equal("0x021e19e0c9bab2400000");
-    });
 
     it("DAI.sol is deployed", async function () {
       const res1 = await dai.balanceOf(creator.address);

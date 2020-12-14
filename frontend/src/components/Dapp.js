@@ -19,7 +19,7 @@ import { SharesInfo } from "./SharesInfo";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTx } from "./WaitingForTx";
 import { WaitingForTx2 } from "./WaitingForTx2";
-import { Admin } from "./Admin";
+// import { Admin } from "./Admin";
 
 const HARDHAT_NETWORK_ID = '5';
 // const HARDHAT_NETWORK_ID = '31337';
@@ -59,10 +59,7 @@ export class Dapp extends React.Component {
           auctionInstance: undefined,
           auctionURL: undefined,
           rate: undefined,
-          daysLeft: undefined,
-          hoursLeft: undefined,
-          minutesLeft: undefined,
-          secondsLeft: undefined,
+          end: undefined,
         },
 
       selectedAddress: undefined,
@@ -136,7 +133,7 @@ export class Dapp extends React.Component {
               <p><small>By <a href = {this.state.forSale1.authorURL} >{this.state.forSale1.author}</a></small></p>
               <p>Available supply<b>: {this.state.forSale1.supply} shares</b></p>
               <p>Price: <b>{this.state.forSale1.rate} DAI</b> per share</p>
-              <p>Time left: <b>{this.state.forSale1.daysLeft}</b> days <b>{this.state.forSale1.hoursLeft}</b> hours <b>{this.state.forSale1.minutesLeft}</b> minutes <b>{this.state.forSale1.secondsLeft}</b> seconds</p>
+              <p>End of the sale: <b>{this.state.forSale1.end}</b></p>
               <br />
               <form>
                 <label>Quantity:</label>
@@ -149,7 +146,6 @@ export class Dapp extends React.Component {
                 />
                 <br />
                 <button type="button" className="btn-lg btn-success mr-md-3" onClick={() => this._Buy()} >Buy</button>
-                <button type="button" className="btn btn-info mr-md-3" onClick={() => this._Buy()} >Pay in crypto and do the made-in-France double-KYC dance</button>
 
               </form>
             </div>
@@ -246,10 +242,17 @@ export class Dapp extends React.Component {
           <div className="col-9">
 
           <h4>{this.state.art1.name}</h4>
-          <p>Auction Instance: <b><a target="_blank" rel="noreferrer" href = {this.state.art1.auctionURL} >{this.state.art1.auctionInstance}</a></b></p>
           <p>NFT Instance: <b><a target="_blank" rel="noreferrer" href = {this.state.art1.nftURL} >{this.state.art1.nftInstance}</a></b></p>
           <p>Shares Instance: <b><a target="_blank" rel="noreferrer" href = {this.state.art1.sharesURL} >{this.state.art1.sharesInstance}</a></b></p>
-          <p>You own: <b>5,000 {this.state.art1.symbol}</b></p>
+          <p>Auction Instance: <b><a target="_blank" rel="noreferrer" href = {this.state.art1.auctionURL} >{this.state.art1.auctionInstance}</a></b></p>
+          <p>Lottery Instance: </p>
+          <p>Metadata: </p>
+          <p>You own: <b></b> shares</p>
+          <p>Price per share: ... DAI</p>
+          <p>Status: </p>
+          <p>Verified / not verified</p>
+
+
           <br />
           </div>
           </div>
@@ -266,18 +269,7 @@ export class Dapp extends React.Component {
             </div>
           </div>
           <hr />
-          <div className="row">
-            <div className="col-12">
-            {!this.state.selectedAddress && (
-                <Admin
-                  Admin={(creatorID, artworkID) =>
-                    this._Admin(creatorID, creatorID)
-                  }
-                />
 
-              )}
-            </div>
-          </div>
 
         <div className="row">
           <div className="col-12">
@@ -352,59 +344,78 @@ export class Dapp extends React.Component {
 
     // Load the Marketplace data
 
-    var a1x = await this._clerk.isThisArtworkVerified(1,2);
+    var verif = await this._clerk.isThisArtworkVerified(1,2);
     // console.log(a1x);
-    if (a1x === true) {
+    if (verif === true) {
 
-    var ax2 = await this._clerk.getAuctionInstance(1,2);
+    var aInst = await this._clerk.getAuctionInstance(1,2);
 
     this._auction = new ethers.Contract(
-      ax2,
+      aInst,
       AuctionArtifact.abi,
       this._provider.getSigner(0)
     );
 
-    var url1 = "https://goerli.etherscan.io/address/" + ax2 + "";
-    var cb = await this._provider.getBlockNumber();
-    console.log("Current block:",cb);
+    var aURL = "https://goerli.etherscan.io/address/" + aInst + "";
 
-    var rateX = await this._auction.highestBid();
-    var rateY = rateX / 1000000000000000000;
+    // var cb = await this._provider.getBlockNumber();
+    // console.log("Current block:",cb);
 
-    var sharesInstance2 = await this._clerk.getSharesInstance(1,2);
+    var rateRaw = await this._auction.highestBid();
+    var rate = rateRaw / 1000000000000000000;
+
+    var sInst2 = await this._clerk.getSharesInstance(1,2);
 
     this._shares = new ethers.Contract(
-      sharesInstance2,
+      sInst2,
       SharesArtifact.abi,
       this._provider.getSigner(0)
     );
 
-    var name3 = await this._shares.name();
-    var symbol3 = await this._shares.symbol();
+    var sName = await this._shares.name();
+    var sSymbol = await this._shares.symbol();
 
-    var bal4 = await this._shares.balanceOf(sharesInstance2);
-    var bal = bal4 / 1000000000000000000;
+    var getBal = await this._shares.balanceOf(sInst2);
+    var bal = getBal / 1000000000000000000;
+
+    // console.log(bal);
 
     var author = "micheal.jackson.eth";
 
     var authorURL = "https://etherscan.io/address/" + author ;
 
+    var getEnd = await this._auction.auctionEndTime();
+    var formattedEnd = getEnd - 30000000000000; // probably without the substraction
+    var date = new Date(formattedEnd * 1000).toUTCString();
+
+    // this.setState({ forSale1: {
+    //   name: sName,
+    //   author: author,
+    //   authorURL: authorURL,
+    //   symbol: sSymbol,
+    //   supply: bal,
+    //   nftImage: "https://strat.cc/load-runner.png", // TO DO: replace with real data
+    //   auctionInstance: aInst,
+    //   auctionURL: aURL,
+    //   rate: rate,
+    //   end: date, // TO DO: replace with real data
+    //   description: "I'm a Load Runner player since the age of six. With this amazing unique screenshot, I wanted to express the harsh of the struggle against the ever-growing threat of machines taking over our lives, a super important issue that mankind is facing today. My character is stuck. Let's just reboot everything." // TO DO: replace with real data
+    // } });
+
     this.setState({ forSale1: {
-      name: name3, // from shares
-      author: author,
-      authorURL: authorURL, // from auction's beneficiary
-      symbol: symbol3, // from shares
-      supply: bal, // from auction
-      nftImage: "https://strat.cc/load-runner.png", // from nft
-      auctionInstance: ax2, // from clerk --> we want
-      auctionURL: url1, // --> we want
-      rate: 0.01,
-      daysLeft: 0,
-      hoursLeft: 0,
-      minutesLeft: 0,
-      secondsLeft: 1,
-      description: "I'm a Load Runner player since the age of six. With this amazing unique screenshot, I wanted to express the harsh of the struggle against the ever-growing threat of machines taking over our lives, a super important issue that mankind is facing today. My character is stuck. Let's just reboot everything."
+      name: "[WIP]",
+      author: "[WIP]",
+      authorURL: "[WIP]",
+      symbol: "[WIP]",
+      supply: "[WIP]",
+      nftImage: "https://strat.cc/load-runner.png", // TO DO: replace with real data
+      auctionInstance: "[WIP]",
+      auctionURL: "[WIP]",
+      rate: "[WIP]",
+      end: "[WIP]", // TO DO: replace with real data
+      description: "I'm a Load Runner player since the age of six. With this amazing unique screenshot, I wanted to express the harsh of the struggle against the ever-growing threat of machines taking over our lives, a super important issue that mankind is facing today. My character is stuck. Let's just reboot everything." // TO DO: replace with real data
     } });
+
   }
 
     // load the Dashboard data
@@ -476,7 +487,7 @@ export class Dapp extends React.Component {
         supply: sharesSupply,
         nftInstance: nftInstance,
         nftURL: nftURL,
-        nftImage: "https://strat.cc/load-runner.png",
+        nftImage: "https://strat.cc/load-runner.png", // TO DO: replace with real data
         auctionInstance: auctionInstance,
         auctionURL: auctionURL,
         verified: artworkVerified
@@ -1632,7 +1643,7 @@ export class Dapp extends React.Component {
       const approveMyDAI = await this._dai.approve(this.state.forSale1.auctionInstance, BigNumber.from("400000000000000000000"));
       await approveMyDAI.wait();
 
-      // bid
+      // buy / bid
       const bid = await this._auction.bid();
       const receipt = await bid.wait();
 
@@ -1654,113 +1665,7 @@ export class Dapp extends React.Component {
       this.setState({ txBeingSent: undefined });
     }
   }
-  async _auctionEnd() {
 
-    try {
-
-      this._dismissTransactionError();
-
-      // trigger auctionEnd
-
-      this._auction = new ethers.Contract(
-        this.state.forSale1.auctionInstance,
-        AuctionArtifact.abi,
-        this._provider.getSigner(0)
-      );
-
-      const approveAgain = await this._auction.approveDAI();
-      await approveAgain.wait();
-
-      const gameOver = await this._auction.auctionEnd();
-
-      const receipt = await gameOver.wait();
-
-      if (receipt.status === 0) {
-        throw new Error("Transaction failed");
-      }
-
-      await this._updateRegistered();
-
-    } catch (error) {
-      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
-        return;
-      }
-      console.error(error);
-      this.setState({ transactionError: error });
-
-    } finally {
-
-      this.setState({ txBeingSent: undefined });
-    }
-  }
-
-  async _withdraw() {
-
-    try {
-
-      this._dismissTransactionError();
-
-      this._auction = new ethers.Contract(
-        this.state.forSale1.auctionInstance,
-        AuctionArtifact.abi,
-        this._provider.getSigner(0)
-      );
-
-      const approveSh = await this._auction.approveShares();
-      await approveSh.wait();
-      const withdraw = await this._auction.withdraw();
-
-      const receipt = await withdraw.wait();
-
-      if (receipt.status === 0) {
-        throw new Error("Transaction failed");
-      }
-
-      await this._updateRegistered();
-
-    } catch (error) {
-      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
-        return;
-      }
-      console.error(error);
-      this.setState({ transactionError: error });
-
-    } finally {
-
-      this.setState({ txBeingSent: undefined });
-    }
-  }
-
-
-  async _Admin(creatorID, artworkID) {
-
-    try {
-
-      this._dismissTransactionError();
-
-      const verif = await this._clerk.verify(creatorID,artworkID);
-
-      const receipt = await verif.wait();
-
-
-      if (receipt.status === 0) {
-        throw new Error("Transaction failed");
-      }
-
-      await this._updateRegistered();
-
-    } catch (error) {
-      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
-        return;
-      }
-      console.error(error);
-      this.setState({ transactionError: error });
-
-    } finally {
-
-      this.setState({ txBeingSent: undefined });
-    }
-  }
 
   _dismissTransactionError() {
     this.setState({ transactionError: undefined });

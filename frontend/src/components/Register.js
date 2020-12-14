@@ -13,8 +13,8 @@ export function Register({ Register, name, symbol }) {
           const symbol = formData.get("symbol");
           const rate = formData.get("rate");
           const volume = formData.get("volume");
-          if (name && symbol) {
-            Register(name, symbol);
+          if (name && symbol && rate && volume) {
+            Register(name, symbol, rate, volume);
           }
         }}
       >
