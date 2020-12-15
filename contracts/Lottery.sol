@@ -4,7 +4,6 @@ pragma solidity ^0.6.0;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Holder.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Lottery is ERC721Holder {
 

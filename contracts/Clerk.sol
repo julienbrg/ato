@@ -11,6 +11,7 @@ contract Clerk is Ownable {
         address shares;
         address nft;
         address auction;
+        address lottery;
         uint256 date;
         bool verified;
     }
@@ -32,7 +33,7 @@ contract Clerk is Ownable {
         numCreators++;
     }
 
-    function registerArtwork(address _shares, address _nft, address _auction) public
+    function registerArtwork(address _shares, address _nft, address _auction, address _lottery) public
     {
         uint256 creatorID = getMyCreatorID();
         if (creatorID == 0)
@@ -46,6 +47,7 @@ contract Clerk is Ownable {
             shares: _shares,
             nft: _nft,
             auction: _auction,
+            lottery: _lottery,
             date: now,
             verified: false
         });
@@ -75,6 +77,12 @@ contract Clerk is Ownable {
     {
         Creator storage y = creators[creatorID];
         return y.artworks[artworkID].auction;
+    }
+
+    function getLottery(uint256 creatorID, uint256 artworkID) public view returns (address lottery)
+    {
+        Creator storage y = creators[creatorID];
+        return y.artworks[artworkID].lottery;
     }
 
     function howManyArtworksDoIHave() public view returns (uint256 num)

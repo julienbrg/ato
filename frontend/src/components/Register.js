@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Register({ Register, name, symbol }) {
+export function Register({ Register, name, symbol, rate, metadata }) {
   return (
     <div>
       <hr />
@@ -12,9 +12,9 @@ export function Register({ Register, name, symbol }) {
           const name = formData.get("name");
           const symbol = formData.get("symbol");
           const rate = formData.get("rate");
-          const volume = formData.get("volume");
-          if (name && symbol && rate && volume) {
-            Register(name, symbol, rate, volume);
+          const metadata = formData.get("metadata");
+          if (name && symbol && rate && metadata) {
+            Register(name, symbol, rate, metadata);
           }
         }}
       >
@@ -26,13 +26,13 @@ export function Register({ Register, name, symbol }) {
           type="text"
           step="1"
           name="name"
-          placeholder="Mona Lisa"
+          placeholder="Loded Runner #1"
           required
         />
       </div>
       <div className="form-group">
         <label>Symbol:</label>
-        <input className="form-control" type="text" name="symbol" placeholder="ML" required />
+        <input className="form-control" type="text" name="symbol" placeholder="LR1" required />
       </div>
       <div className="form-group">
         <label>Price per share (in USD):</label>
@@ -40,7 +40,7 @@ export function Register({ Register, name, symbol }) {
       </div>
       <div className="form-group">
         <label>JSON file URL</label>
-        <input className="form-control" type="text" name="volume" placeholder="http://example.com/monalisa.json" required />
+        <input className="form-control" type="text" name="metadata" placeholder="http://example.com/monalisa.json" required />
       </div>
       <br />
       <input className="btn-lg btn-primary" type="submit" value="Proceed" />
