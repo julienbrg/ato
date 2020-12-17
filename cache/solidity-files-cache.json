@@ -624,81 +624,6 @@
         "ERC721Holder"
       ]
     },
-    "/Users/ju/Desktop/ato/contracts/Auction.sol": {
-      "lastModificationDate": 1607963615941,
-      "sourceName": "contracts/Auction.sol",
-      "solcConfig": {
-        "version": "0.6.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol",
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "./Lottery.sol"
-      ],
-      "versionPragmas": [
-        "^0.6.0"
-      ],
-      "artifacts": [
-        "Auction"
-      ]
-    },
-    "/Users/ju/Desktop/ato/contracts/Lottery.sol": {
-      "lastModificationDate": 1607963455310,
-      "sourceName": "contracts/Lottery.sol",
-      "solcConfig": {
-        "version": "0.6.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol",
-        "@openzeppelin/contracts/token/ERC721/ERC721Holder.sol",
-        "@openzeppelin/contracts/token/ERC721/IERC721.sol",
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
-      ],
-      "versionPragmas": [
-        "^0.6.0"
-      ],
-      "artifacts": [
-        "Lottery"
-      ]
-    },
     "/Users/ju/Desktop/ato/contracts/Shares.sol": {
       "lastModificationDate": 1607963637929,
       "sourceName": "contracts/Shares.sol",
@@ -771,42 +696,6 @@
         "NFT"
       ]
     },
-    "/Users/ju/Desktop/ato/contracts/DAI.sol": {
-      "lastModificationDate": 1607963373215,
-      "sourceName": "contracts/DAI.sol",
-      "solcConfig": {
-        "version": "0.6.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol",
-        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
-      ],
-      "versionPragmas": [
-        "^0.6.0"
-      ],
-      "artifacts": [
-        "DAI"
-      ]
-    },
     "/Users/ju/Desktop/ato/contracts/Clerk.sol": {
       "lastModificationDate": 1608022179413,
       "sourceName": "contracts/Clerk.sol",
@@ -841,6 +730,116 @@
       ],
       "artifacts": [
         "Clerk"
+      ]
+    },
+    "/Users/ju/Desktop/ato/contracts/Lottery.sol": {
+      "lastModificationDate": 1608144046218,
+      "sourceName": "contracts/Lottery.sol",
+      "solcConfig": {
+        "version": "0.6.2",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol",
+        "@openzeppelin/contracts/token/ERC721/ERC721Holder.sol",
+        "@openzeppelin/contracts/token/ERC721/IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "Lottery"
+      ]
+    },
+    "/Users/ju/Desktop/ato/contracts/Auction.sol": {
+      "lastModificationDate": 1608218238542,
+      "sourceName": "contracts/Auction.sol",
+      "solcConfig": {
+        "version": "0.6.2",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "./Lottery.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "Auction"
+      ]
+    },
+    "/Users/ju/Desktop/ato/contracts/DAI.sol": {
+      "lastModificationDate": 1608222809307,
+      "sourceName": "contracts/DAI.sol",
+      "solcConfig": {
+        "version": "0.6.2",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol",
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "DAI"
       ]
     }
   }

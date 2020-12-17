@@ -8,11 +8,12 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 contract Lottery is ERC721Holder {
 
     address public nft;
-    address public auction;
     address public owner;
     uint public random;
+    address public auction;
     uint public seed;
     address public winner;
+    uint public end;
 
     struct Slot
     {
@@ -26,29 +27,28 @@ contract Lottery is ERC721Holder {
     constructor() public
     {
         owner = msg.sender;
+        end = now + 15 days;
         seed = 888;
     }
 
-    function run() public
+    function run() external
     {
         require(
-            msg.sender == auction,
-            "Only the auction contract can call this function."
+            end < now,
+            "The auction is not over yet."
             );
 
-        random = uint(keccak256(abi.encodePacked(block.difficulty, now, seed))) % numSlots;
+        random = uint(keccak256(abi.encodePacked(block.difficulty, now, seed))) % (numSlots + 1);
         winner = slots[random].addr;
-        IERC721(nft).safeTransferFrom(address(this), winner, 1);
         emit Won(winner, now);
     }
 
-    function addPlayer(address _addr, uint _vol, uint _userSeed) public
+    function addPlayer(address _addr, uint _vol, uint _userSeed) external
     {
         require(
             msg.sender == auction,
             "Only the auction contract can call this function."
             );
-
         seed = seed * _userSeed;
         uint vol = ((_vol /100) / 10**18);
         uint j = vol + numSlots;
@@ -60,7 +60,12 @@ contract Lottery is ERC721Holder {
         }
     }
 
-    function addNFT(address _nft) public
+    function withdraw() external
+    {
+        IERC721(nft).transferFrom(address(this), winner, 1);
+    }
+
+    function addNFT(address _nft) external
     {
         require(
             msg.sender == owner,
@@ -69,7 +74,7 @@ contract Lottery is ERC721Holder {
         nft = _nft;
     }
 
-    function addAuction(address _auction) public
+    function addAuction(address _auction) external
     {
         require(
             msg.sender == owner,
@@ -77,4 +82,11 @@ contract Lottery is ERC721Holder {
             );
         auction = _auction;
     }
+
+    // for tests only
+    function hardStop() external
+    {
+        end = now;
+    }
+
 }

@@ -25,37 +25,24 @@ contract Auction {
     uint public numTrades;
     mapping (uint => Trade) public trades;
 
-    enum Status {Created, Started, SoldOut, Stopped}
-    Status public status;
-
     event Sold(uint indexed id, address indexed buyer, uint volume, uint date);
 
-    constructor (address _dai, address _lottery, uint _rate) public
+    constructor (address _dai, address _lottery, uint _rate, uint _end) public
     {
         beneficiary = msg.sender;
         dai = _dai;
-        status = Status.Created;
         rate = _rate;
         lottery = _lottery;
+        end = _end;
     }
 
-    function buy(uint _volume, uint _seed) public payable
+    function buy(uint _volume, uint _seed) external payable
     {
         uint volume = _volume;
 
         require(
-            status != Status.Created,
-            "The auction hasn't started yet."
-        );
-
-        require(
-            status != Status.SoldOut ,
+            end > now ,
             "Sold out!"
-        );
-
-        require(
-            status != Status.Stopped,
-            "The auction was stopped by the beneficiary."
         );
 
         require(
@@ -72,12 +59,15 @@ contract Auction {
         emit Sold(id, msg.sender, volume, now);
         Lottery(lottery).addPlayer(msg.sender, volume, _seed);
         supply -= volume;
-        if (supply == 0) {auctionEnd();}
+        if (supply == 0)
+        {
+            end = now;
+        }
 
         IERC20(shares).transferFrom(address(this), msg.sender, volume);
     }
 
-    function addShares(address _shares) public
+    function addShares(address _shares) external
     {
         require(
             msg.sender == beneficiary,
@@ -86,42 +76,9 @@ contract Auction {
         shares = _shares;
     }
 
-    function start() public payable
+    function start() external
     {
-        require(
-            msg.sender == beneficiary,
-            "Only the beneficiary can call this function."
-        );
         supply = IERC20(shares).balanceOf(address(this));
         IERC20(shares).approve(address(this), supply);
-        end = now + 15 days;
-        //Lottery(lottery).addEndTime(end);
-        //Lottery(lottery).addShares(shares);
-        status = Status.Started;
-    }
-
-    function hardStop() public
-    {
-        require(
-            msg.sender == beneficiary,
-            "Only the beneficiary can call this function."
-        );
-        end = now;
-        auctionEnd();
-    }
-
-    function auctionEnd() private
-    {
-        if (supply > 0)
-        {
-            status = Status.Stopped;
-        }
-
-        else
-        {
-            status = Status.SoldOut;
-        }
-
-        Lottery(lottery).run();
     }
 }

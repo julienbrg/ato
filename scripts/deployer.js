@@ -36,10 +36,13 @@ async function main() {
   );
   console.log("NFT.sol deployed at", nft.address);
 
+
+  const end = await lottery.end();
+  //await end.wait();
   // Deploy Auction.sol
   const [deployer] = await ethers.getSigners();
   const Auction = await ethers.getContractFactory("Auction");
-  const auction = await Auction.deploy(dai.address, lottery.address, 1);
+  const auction = await Auction.deploy(dai.address, lottery.address, 1, end);
   await auction.deployed();
   console.log("Auction.sol deployed at", auction.address);
 
