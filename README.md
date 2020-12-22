@@ -37,9 +37,11 @@ npm start
 ```
 ## Usage
 
-Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/) and go to [https://strat.cc/ato](https://strat.cc/ato).
+Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/) and go to [https://ato.works/app](https://ato.works/app).
 
-Choose a name, symbol, price (in DAI), and a URI (JSON file) then click on 'Proceed'.  
+Choose a name, symbol, price (in DAI), and a URI (JSON file) then click on 'Proceed'.
+
+You need to have some [Goerli DAI](https://goerli.etherscan.io/address/0x23284128a90a928cad13f1b082e7a371b48d03dd) to buy shares.
 
 ## Contact
 
