@@ -41,7 +41,7 @@ export function Register({ Register, name, symbol, rate, metadata }) {
         />
       </div>
       <div className="form-group">
-        <label>Price per share (in USD):</label>
+        <label>Price per share (in DAI):</label>
         <input
           className="form-control"
           type="text"

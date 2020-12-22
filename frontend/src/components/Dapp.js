@@ -348,67 +348,66 @@ export class Dapp extends React.Component {
 
     if (verif === true) {
 
-    var aInst = await this._clerk.getAuction(1,0);
+      var aInst = await this._clerk.getAuction(1,0);
 
-    this._auction = new ethers.Contract(
-      aInst,
-      AuctionArtifact.abi,
-      this._provider.getSigner(0)
-    );
+      this._auction = new ethers.Contract(
+        aInst,
+        AuctionArtifact.abi,
+        this._provider.getSigner(0)
+      );
 
-    var aURL = "https://goerli.etherscan.io/address/" + aInst + "";
+      var aURL = "https://goerli.etherscan.io/address/" + aInst + "";
 
-    var rateRaw = await this._auction.rate();
-    var rate = rateRaw / 1000000000000000000;
+      var rateRaw = await this._auction.rate();
+      var rate = rateRaw / 1000000000000000000;
+      var getEnd = await this._auction.end();
+      var formattedEnd = getEnd ;
+      var date = new Date(formattedEnd * 1000).toUTCString();
 
-    var sInst2 = await this._clerk.getShares(1,0);
+      var sInst2 = await this._clerk.getShares(1,0);
 
-    this._shares = new ethers.Contract(
-      sInst2,
-      SharesArtifact.abi,
-      this._provider.getSigner(0)
-    );
+      this._shares = new ethers.Contract(
+        sInst2,
+        SharesArtifact.abi,
+        this._provider.getSigner(0)
+      );
 
-    var sSymbol = await this._shares.symbol();
+      var sSymbol = await this._shares.symbol();
 
-    var getBal = await this._shares.balanceOf(aInst);
-    var bal = getBal / 1000000000000000000;
+      var getBal = await this._shares.balanceOf(aInst);
+      var bal = getBal / 1000000000000000000;
 
-    var sharesBalance = await this._shares.balanceOf(this.state.selectedAddress);
+      var sharesBalance = await this._shares.balanceOf(this.state.selectedAddress);
 
-    var nInst = await this._clerk.getNFT(1,0);
-    this._nft = new ethers.Contract(
-      nInst,
-      NFTArtifact.abi,
-      this._provider.getSigner(0)
-    );
+      var nInst = await this._clerk.getNFT(1,0);
+      this._nft = new ethers.Contract(
+        nInst,
+        NFTArtifact.abi,
+        this._provider.getSigner(0)
+      );
 
-    var getEnd = await this._auction.end();
-    var formattedEnd = getEnd ;
-    var date = new Date(formattedEnd * 1000).toUTCString();
+      var getMetadata = await this._nft.tokenURI(1);
+      var metadataRaw = await fetch(getMetadata);
+      var metadata = await metadataRaw.json();
 
-    var getMetadata = await this._nft.tokenURI(1);
-    var metadataRaw = await fetch(getMetadata);
-    var metadata = await metadataRaw.json();
+      var authorURL = "https://etherscan.io/address/" + metadata.address ;
 
-    var authorURL = "https://etherscan.io/address/" + metadata.address ;
-
-    this.setState({ forSale1: {
-      name: metadata.name,
-      author: metadata.address,
-      authorURL: authorURL,
-      symbol: sSymbol,
-      description: metadata.description,
-      supply: bal,
-      nftImage: metadata.image,
-      auctionInstance: aInst,
-      auctionURL: aURL,
-      pdf: metadata.pdf,
-      sharesBalance : sharesBalance,
-      price: rate,
-      end: date,
-    } });
-  }
+      this.setState({ forSale1: {
+        name: metadata.name,
+        author: metadata.author,
+        authorURL: authorURL,
+        symbol: sSymbol,
+        description: metadata.description,
+        supply: bal,
+        nftImage: metadata.image,
+        auctionInstance: aInst,
+        auctionURL: aURL,
+        pdf: metadata.pdf,
+        sharesBalance : sharesBalance,
+        price: rate,
+        end: date,
+      } });
+    }
 
     // load the Dashboard data
 
@@ -419,7 +418,7 @@ export class Dapp extends React.Component {
     this.setState({ x });
     this.setState({ registered: x.toString() });
 
-    if (this.state.registered > 0) {
+    if (this.state.id > 0) {
 
       var y = this.state.registered - 1;
       var auctionInstance = await this._clerk.getAuction(this.state.id.toString(),y);
@@ -440,9 +439,9 @@ export class Dapp extends React.Component {
       }
       var artworkVerified = await this._clerk.isThisArtworkVerified(this.state.id.toString(),y);
       if (artworkVerified === true) {
-        var verified = "This artwork has been verified.";
+        var verified = "This artwork is verified.";
       } else {
-        verified = "This artwork has not been verified.";
+        verified = "This artwork is not verified.";
       }
 
       // Poll data from Auction
@@ -551,7 +550,9 @@ export class Dapp extends React.Component {
       const abi = AuctionArtifact.abi;
       const bytecode = AuctionArtifact.bytecode;
       const prepareAuction = new ContractFactory(abi, bytecode, signer);
-      const auction = await prepareAuction.deploy("0x23284128a90A928Cad13f1B082e7A371b48D03Dd", lottery.address, BigNumber.from("10000000000000000"), end);
+      const rateToString = (rate * 1000000000000000000).toString();
+      const rateFormatted = BigNumber.from(rateToString);
+      const auction = await prepareAuction.deploy("0x23284128a90A928Cad13f1B082e7A371b48D03Dd", lottery.address, rateFormatted, end);
       await auction.deployed();
       console.log("Auction.sol deployed:", auction.address);
 
@@ -619,6 +620,12 @@ export class Dapp extends React.Component {
 
       this._dismissTransactionError();
 
+        this._a = new ethers.Contract(
+          this.state.forSale1.auctionInstance,
+          AuctionArtifact.abi,
+          this._provider.getSigner(0)
+        );
+
       // Approve
 
       this._dai = new ethers.Contract(
@@ -628,18 +635,17 @@ export class Dapp extends React.Component {
       );
 
       const volume2 = volume * 1000000000000000000;
-      const volume3 = volume2.toString();
-      console.log("volume3:", volume3);
+      const volumeToString = volume2.toString();
 
-      const toApprove = volume3 * this.state.forSale1.price;
-      console.log("toApprove:", toApprove);
-
+      const toApprove = volumeToString * this.state.forSale1.price;
       const approveMyDAI = await this._dai.approve(this.state.forSale1.auctionInstance, BigNumber.from(toApprove.toString()));
       await approveMyDAI.wait();
 
       // Buy
 
-      const buy = await this._auction.buy(BigNumber.from(volume3),1 );
+      const volumeFormatted = BigNumber.from(volumeToString);
+      const buy = await this._a.buy(volumeFormatted,1);
+
       const receipt = await buy.wait();
 
       if (receipt.status === 0) {
