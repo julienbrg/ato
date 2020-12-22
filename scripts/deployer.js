@@ -1,3 +1,5 @@
+// import { BigNumber } from "@ethersproject/bignumber";
+
 async function main() {
 
   if (network.name === "hardhat") {
@@ -15,13 +17,6 @@ async function main() {
   await dai.deployed();
   console.log("DAI.sol deployed at", dai.address);
 
-  // Deploy Auction.sol
-  const [deployer] = await ethers.getSigners();
-  const Auction = await ethers.getContractFactory("Auction");
-  const auction = await Auction.deploy("0x0000000000000000000000000000000000000000",30000000000000);
-  await auction.deployed();
-  console.log("Auction.sol deployed at", auction.address);
-
   // Deploy Lottery.solidity
   const Lottery = await ethers.getContractFactory("Lottery");
   const lottery = await Lottery.deploy();
@@ -30,12 +25,26 @@ async function main() {
 
   // Deploy NFT.sol
   const NFT = await ethers.getContractFactory("NFT");
-  const _name = "Coucou";
-  const _symbol = "CC";
+  const _name = "Lode Runner #1";
+  const _symbol = "LR1";
   const _tokenURI = "https://strat.cc/nft.json";
-  const nft = await NFT.deploy(_name,_symbol,_tokenURI,"0x70997970c51812dc3a010c7d01b50e0d17dc79c8");
-  await nft.deployed();
+  const nft = await NFT.deploy(_name,_symbol,_tokenURI,lottery.address);
+  await nft.deployed({
+    gasLimit: 250000
+  }
+
+  );
   console.log("NFT.sol deployed at", nft.address);
+
+
+  const end = await lottery.end();
+  //await end.wait();
+  // Deploy Auction.sol
+  const [deployer] = await ethers.getSigners();
+  const Auction = await ethers.getContractFactory("Auction");
+  const auction = await Auction.deploy(dai.address, lottery.address, 1, end);
+  await auction.deployed();
+  console.log("Auction.sol deployed at", auction.address);
 
   // Deploy Shares.sol
   const Shares = await ethers.getContractFactory("Shares");
@@ -49,19 +58,20 @@ async function main() {
   await clerk.deployed();
   console.log("Clerk.sol deployed at", clerk.address);
 
-  saveFrontendFiles(auction);
+  saveFrontendFiles(dai);
   saveFrontendFiles(lottery);
   saveFrontendFiles(nft);
+  saveFrontendFiles(auction);
   saveFrontendFiles(shares);
   saveFrontendFiles(clerk);
+
 }
 
-function saveFrontendFiles(auction) {
-
-  const AuctionArtifact = artifacts.readArtifactSync("Auction");
+function saveFrontendFiles(dai) {
+  const DAIArtifact = artifacts.readArtifactSync("DAI");
   fs.writeFileSync(
-    contractsDir + "/Auction.json",
-    JSON.stringify(AuctionArtifact, null, 2)
+    contractsDir + "/Dai.json",
+    JSON.stringify(DAIArtifact, null, 2)
   );
 }
 
@@ -78,6 +88,15 @@ function saveFrontendFiles(nft) {
   fs.writeFileSync(
     contractsDir + "/NFT.json",
     JSON.stringify(NFTArtifact, null, 2)
+  );
+}
+
+function saveFrontendFiles(auction) {
+
+  const AuctionArtifact = artifacts.readArtifactSync("Auction");
+  fs.writeFileSync(
+    contractsDir + "/Auction.json",
+    JSON.stringify(AuctionArtifact, null, 2)
   );
 }
 

@@ -14,8 +14,9 @@ task("accounts", "Prints the list of accounts", async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 
+// Add your own private key here
 const INFURA_PROJECT_ID = "89c4e0d4c51840d382a448717cd22b98";
-const GOERLI_PRIVATE_KEY = "c5e8f61d1ab959b397eecc0a37a6517b8e67a0e7cf1f4bce5591f3ed80199122";
+const GOERLI_PRIVATE_KEY = "<paste-your-private-key-here>";
 
 module.exports = {
   solidity: "0.6.2",

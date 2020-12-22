@@ -8,7 +8,6 @@ contract DAI is ERC20
 {
   constructor() public ERC20("DAI Stablecoin", "DAI")
   {
-    _mint(msg.sender, 10000*10**18);
-    _approve(address(this), msg.sender, 10000*10**18);
+    _mint(msg.sender, 3000000000*10**18);
   }
 }

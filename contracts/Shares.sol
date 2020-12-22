@@ -10,6 +10,5 @@ contract Shares is ERC20
   {
     _mint(msg.sender, 5000*10**18);
     _mint(_auction, 5000*10**18);
-    approve(_auction, 5000*10**18);
   }
 }

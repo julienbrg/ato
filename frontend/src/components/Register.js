@@ -1,10 +1,10 @@
 import React from "react";
 
-export function Register({ Register, name, symbol }) {
+export function Register({ Register, name, symbol, rate, metadata }) {
   return (
     <div>
       <hr />
-      <h2>Register your artwork</h2>
+      <h2>Register an artwork</h2>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -12,39 +12,61 @@ export function Register({ Register, name, symbol }) {
           const name = formData.get("name");
           const symbol = formData.get("symbol");
           const rate = formData.get("rate");
-          const volume = formData.get("volume");
-          if (name && symbol) {
-            Register(name, symbol);
+          const metadata = formData.get("metadata");
+          if (name && symbol && rate && metadata) {
+            Register(name, symbol, rate, metadata);
           }
         }}
       >
       <div className="form-group">
-        <p>Click on 'Proceed' to register your artwork.</p>
+        <p>Click on 'Proceed' to register an artwork.</p>
         <label>Name:</label>
         <input
           className="form-control"
           type="text"
           step="1"
           name="name"
-          placeholder="Mona Lisa"
+          placeholder="Lode Runner #1"
           required
         />
       </div>
       <div className="form-group">
         <label>Symbol:</label>
-        <input className="form-control" type="text" name="symbol" placeholder="ML" required />
+        <input
+          className="form-control"
+          type="text"
+          name="symbol"
+          placeholder="LR1"
+          required
+        />
       </div>
       <div className="form-group">
-        <label>Price per share (in USD):</label>
-        <input className="form-control" type="text" name="rate" placeholder="0.01" required />
+        <label>Price per share (in DAI):</label>
+        <input
+          className="form-control"
+          type="text"
+          name="rate"
+          placeholder="0.01"
+          required
+        />
       </div>
       <div className="form-group">
         <label>JSON file URL</label>
-        <input className="form-control" type="text" name="volume" placeholder="http://example.com/monalisa.json" required />
+        <input
+          className="form-control"
+          type="text"
+          name="metadata"
+          placeholder="http://example.com/myJsonFile.json"
+          required
+        />
       </div>
       <br />
-      <input className="btn-lg btn-primary" type="submit" value="Proceed" />
+      <input
+        className="btn-lg btn-primary"
+        type="submit"
+        value="Proceed"
+      />
       </form>
-      </div>
+    </div>
   );
 }

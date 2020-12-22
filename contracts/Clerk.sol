@@ -8,9 +8,10 @@ contract Clerk is Ownable {
 
     struct Artwork
     {
-        address sharesInstance;
-        address nftInstance;
-        address auctionInstance;
+        address shares;
+        address nft;
+        address auction;
+        address lottery;
         uint256 date;
         bool verified;
     }
@@ -25,32 +26,33 @@ contract Clerk is Ownable {
     uint256 public numCreators;
     mapping (uint256 => Creator) public creators;
 
-    event Registered(address indexed _creator, address indexed _sharesInstance);
+    event Registered(address indexed creator, address shares, address nft, address auction, uint date);
 
-    constructor() public {
+    constructor() public
+    {
         numCreators++;
     }
 
-    function registerArtwork(address _sharesInstance, address _nftInstance, address _auctionInstance) public
+    function registerArtwork(address _shares, address _nft, address _auction, address _lottery) public
     {
         uint256 creatorID = getMyCreatorID();
-        if (creatorID == 0) {
+        if (creatorID == 0)
+        {
             creatorID = numCreators++;
             creators[creatorID] = Creator(msg.sender, 0);
         }
 
         Creator storage a = creators[creatorID];
         a.artworks[a.numArtworks++] = Artwork({
-
-            sharesInstance: _sharesInstance,
-            nftInstance: _nftInstance,
-            auctionInstance: _auctionInstance,
+            shares: _shares,
+            nft: _nft,
+            auction: _auction,
+            lottery: _lottery,
             date: now,
-
             verified: false
-
         });
-        emit Registered(msg.sender,_sharesInstance);
+
+        emit Registered(msg.sender, _shares, _nft, _auction, now);
     }
 
     function newCreator() internal returns (uint256 creatorID)
@@ -59,28 +61,34 @@ contract Clerk is Ownable {
         creators[creatorID] = Creator(msg.sender, 0);
     }
 
-    function getSharesInstance(uint256 creatorID, uint256 artworkID) public view returns (address sharesInstance)
+    function getShares(uint256 creatorID, uint256 artworkID) public view returns (address shares)
     {
         Creator storage y = creators[creatorID];
-        return y.artworks[artworkID].sharesInstance;
+        return y.artworks[artworkID].shares;
     }
 
-    function getNFTInstance(uint256 creatorID, uint256 artworkID) public view returns (address nftInstance)
+    function getNFT(uint256 creatorID, uint256 artworkID) public view returns (address nft)
     {
         Creator storage y = creators[creatorID];
-        return y.artworks[artworkID].nftInstance;
+        return y.artworks[artworkID].nft;
     }
 
-    function getAuctionInstance(uint256 creatorID, uint256 artworkID) public view returns (address auctionInstance)
+    function getAuction(uint256 creatorID, uint256 artworkID) public view returns (address auction)
     {
         Creator storage y = creators[creatorID];
-        return y.artworks[artworkID].auctionInstance;
+        return y.artworks[artworkID].auction;
+    }
+
+    function getLottery(uint256 creatorID, uint256 artworkID) public view returns (address lottery)
+    {
+        Creator storage y = creators[creatorID];
+        return y.artworks[artworkID].lottery;
     }
 
     function howManyArtworksDoIHave() public view returns (uint256 num)
     {
-        for (uint256 id=0;id<numCreators;id++) {
-            address m=msg.sender;
+        for (uint256 id=0; id<numCreators; id++) {
+            address m = msg.sender;
             if (m == creators[id].creatorAddr) {
                 num = creators[id].numArtworks;
                 return num;
@@ -90,8 +98,8 @@ contract Clerk is Ownable {
 
     function getMyCreatorID() public view returns (uint256 _id)
     {
-        for (uint256 id=0;id<numCreators;id++) {
-            address m=msg.sender;
+        for (uint256 id=0; id<numCreators; id++) {
+            address m = msg.sender;
             if (m == creators[id].creatorAddr) {
                 _id = id;
                 return _id;
