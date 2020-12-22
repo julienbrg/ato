@@ -1,16 +1,16 @@
 # ĀTO
 
-ĀTO v0.1.2 allows anyone to register both physical and digital artworks on Ethereum. The shares are then for sale and holders of these shares can win the NFT.
+ĀTO v0.3.0 allows anyone to register both physical and digital artworks on Ethereum. The shares are then for sale and holders of these shares can win the NFT.
 
 It deploys `Auction.sol`, `Shares.sol`, `NFT.sol`, and register these new instances in `Clerk.sol`.
 
-A demo is available at [https://strat.cc/ato](https://strat.cc/ato).
+A demo is available at [https://ato.works/app](https://ato.works/app).
 
 ## Install
 
 ```
-git clone https://github.com/julienbrg/minter.git
-cd minter
+git clone https://github.com/julienbrg/ato.git
+cd ato
 npm install
 ```
 
@@ -22,7 +22,7 @@ npx hardhat test
 
 ## Deploy
 
-Add your [Infura](https://infura.io/) project ID and your account private key in `hardhat.config.js`.
+Add your own private key in `hardhat.config.js`.
 
 ```
 npx hardhat run scripts/deployer.js --network goerli
@@ -39,7 +39,7 @@ npm start
 
 Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/) and go to [https://strat.cc/ato](https://strat.cc/ato).
 
-Choose a name and a symbol, then click on 'Proceed'.  
+Choose a name, symbol, price (in DAI), and a URI (JSON file) then click on 'Proceed'.  
 
 ## Contact
 
