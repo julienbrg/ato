@@ -50,7 +50,7 @@ contract Lottery is ERC721Holder {
             "Only the auction contract can call this function."
             );
         seed = seed * _userSeed;
-        uint vol = ((_vol /100) / 10**18);
+        uint vol = ((_vol /10) / 10**18); // Probleme dans le /100 --> pas possible d'acheter moins de 100parts
         uint j = vol + numSlots;
 
         for (uint id=numSlots; id<j; id++)

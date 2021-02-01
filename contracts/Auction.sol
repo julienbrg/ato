@@ -50,6 +50,8 @@ contract Auction {
             "You ask for too much: please check the current available supply."
         );
 
+        //require vol mini 10
+
         total = rate * (volume / 10**18);
         IERC20(dai).transferFrom(msg.sender, beneficiary, total);
 
