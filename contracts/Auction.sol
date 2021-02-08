@@ -63,7 +63,7 @@ contract Auction {
         supply -= volume;
         if (supply == 0)
         {
-            end = now;
+            Lottery(lottery).hardStop(1);
         }
 
         IERC20(shares).transferFrom(address(this), msg.sender, volume);

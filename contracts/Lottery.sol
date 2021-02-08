@@ -84,8 +84,11 @@ contract Lottery is ERC721Holder {
     }
 
     // for tests only
-    function hardStop() external
+    function hardStop(uint ) external
     {
+        require(msg.sender == auction,
+            "Only the auction contract can call this function."
+        );
         end = now;
     }
 

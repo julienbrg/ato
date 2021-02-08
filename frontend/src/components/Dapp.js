@@ -23,7 +23,7 @@ import {TransactionErrorMessage} from "./TransactionErrorMessage";
 import {WaitingForTx} from "./WaitingForTx";
 import {WaitingForTx2} from "./WaitingForTx2";
 
-const daiContract = "0x7108da6CD51983383206e1FBA5104BD15A3124e2";
+const daiContract = "0x0ed64d01D0B4B655E410EF1441dD677B695639E7";
 const HARDHAT_NETWORK_ID = '5';
 // const HARDHAT_NETWORK_ID = '31337';
 
@@ -121,10 +121,9 @@ export class Dapp extends React.Component {
                         </p>
 
                         <p>Click on this button to receive some DAI.</p>
-                        <button onClick={()=>this._getDAI()} className="btn-sn btn-success mr-md-3">
+                        <button onClick={() => this._getDAI()} className="btn-sn btn-success mr-md-3">
                             GET DAI
                         </button>
-
 
                     </div>
                 </div>
@@ -694,6 +693,7 @@ export class Dapp extends React.Component {
     }
 
     async _getDAI() {
+
         this._dai = new ethers.Contract(
             daiContract,
             DAIArtifact.abi,
@@ -702,6 +702,7 @@ export class Dapp extends React.Component {
 
         await this._dai.withdraw();
     }
+
 
     _dismissTransactionError() {
         this.setState({transactionError: undefined});

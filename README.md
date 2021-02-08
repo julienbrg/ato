@@ -41,8 +41,7 @@ Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/).
 
 Choose a name, symbol, price (in DAI), and a URI (a JSON file that looks like [this](https://gateway.pinata.cloud/ipfs/QmUPPWFhbD8xQsLfTeytAAHpWof6YVVgrazoLpXm2dgPyf)), then click on 'Proceed'.
 
-You need to have some [Goerli DAI](https://goerli.etherscan.io/address/0x23284128a90a928cad13f1b082e7a371b48d03dd) to buy shares. We will provide a Goerli DAI faucet in an upcoming version.
-
+Click on the GET DAI button to be able to buy shares.
 ## Contact
 
 Feel free to [contact me](https://strat.eth.link/contact.html) if you need anything.

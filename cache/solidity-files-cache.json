@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\theoc\\ato\\contracts\\Auction.sol": {
-      "lastModificationDate": 1611836826666,
-      "contentHash": "06f05a46b30efd628b273ad880f03e4e",
+      "lastModificationDate": 1612791747317,
+      "contentHash": "3b4f001efef6f8fe344df8b39bf23351",
       "sourceName": "contracts/Auction.sol",
       "solcConfig": {
         "version": "0.6.2",
@@ -108,8 +108,8 @@
       ]
     },
     "C:\\Users\\theoc\\ato\\contracts\\Lottery.sol": {
-      "lastModificationDate": 1611836614647,
-      "contentHash": "f33bc4a47311292d2b213c0486962c5f",
+      "lastModificationDate": 1612792505977,
+      "contentHash": "3bd762ae7c7c11b7347abe23a72fdc29",
       "sourceName": "contracts/Lottery.sol",
       "solcConfig": {
         "version": "0.6.2",
@@ -682,8 +682,8 @@
       ]
     },
     "C:\\Users\\theoc\\ato\\contracts\\Shares.sol": {
-      "lastModificationDate": 1611303064570,
-      "contentHash": "16b45da186482c34741982b325362408",
+      "lastModificationDate": 1612794920913,
+      "contentHash": "149596710daaa98fade150fd0cc7927e",
       "sourceName": "contracts/Shares.sol",
       "solcConfig": {
         "version": "0.6.2",
@@ -756,8 +756,8 @@
       ]
     },
     "C:\\Users\\theoc\\ato\\contracts\\DAI.sol": {
-      "lastModificationDate": 1611939281322,
-      "contentHash": "855c30db0e7652f15e635730d4d26ecb",
+      "lastModificationDate": 1612802798162,
+      "contentHash": "bfeee19edd4818fb5bbed79dbd0340d2",
       "sourceName": "contracts/DAI.sol",
       "solcConfig": {
         "version": "0.6.2",

@@ -13,7 +13,7 @@ contract DAI is ERC20
 
   function withdraw()public
   {
-    _mint(msg.sender, 50*10**18);
+    _mint(msg.sender, 500000*10**18);
     emit Withdrawn (msg.sender, 50);
   }
 }
