@@ -80,11 +80,11 @@ describe("Āto", function () {
     });
 
     describe("Try Magic DAI for testnet", function () {
-        it("Magic DAI give 50 DAI token", async function () {
+        it("Magic DAI give 500000 DAI token", async function () {
             await dai.connect(buyer).withdraw();
             let balanceB1 = await dai.balanceOf(buyer.address);
             balanceB1 = balanceB1.toString();
-            expect(balanceB1).to.equal('50000000000000000000');
+            expect(balanceB1).to.equal('500000000000000000000000');
         });
     });
 
@@ -145,12 +145,14 @@ describe("Āto", function () {
         });
 
         it("Anyone should be able to run the lottery and the winner of the NFT should hold his NFT", async function () {
-            let volume = ethers.utils.parseEther('49');//MAX 4059
+            let volume = ethers.utils.parseEther('5000');
+            let v1 = ethers.utils.parseEther('4059');//MAX 4059
+            let v2 = ethers.utils.parseEther('941');
             await dai.connect(buyer).withdraw();
             await auction.start();
             await dai.connect(buyer).approve(auction.address, volume);
-            await auction.connect(buyer).buy(volume, 12); //gasLimit MAX 9500000
-            await lottery.hardStop();
+            await auction.connect(buyer).buy(v1, 12, {gasLimit : 9500000});  //gasLimit MAX 9500000
+            await auction.connect(buyer).buy(v2, 12, {gasLimit : 9500000});
             await lottery.run();
             await lottery.connect(buyer).withdraw();
             expect(await nft.ownerOf(1)).to.equal(await buyer.address);
