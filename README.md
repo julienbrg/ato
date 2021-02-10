@@ -2,8 +2,7 @@
 
 ĀTO allows anyone to register both physical and digital artworks on Ethereum. The shares are then for sale and holders of these shares can win the NFT.
 
-It deploys `Auction.sol`, `Shares.sol`, `NFT.sol`, and register these new instances in `Clerk.sol`.
-
+It deploys `Auction.sol`, `Shares.sol`, `NFT.sol`, `Lottery.sol` and register these new instances in `Clerk.sol`.
 A demo is available at [https://ato.works/app](https://ato.works/app).
 
 ## Install
