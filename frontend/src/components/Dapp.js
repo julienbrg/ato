@@ -9,8 +9,11 @@ import AuctionArtifact from "../contracts/Auction.json";
 import NFTArtifact from "../contracts/NFT.json";
 import LotteryArtifact from "../contracts/Lottery.json";
 import SharesArtifact from "../contracts/Shares.json";
+import AtoArtifact from "../contracts/Ato.json";          //NEW
 
-import contractAddress from "../contracts/contract-address.json";
+import clerkAddress from "../contracts/clerk-addr.json"; //NEW
+import atoAddress from "../contracts/ato-addr.json";    //NEW
+import daiAddress from "../contracts/dai-addr.json";     //NEW
 
 import {NoWalletDetected} from "./NoWalletDetected";
 import {ConnectWallet} from "./ConnectWallet";
@@ -23,12 +26,11 @@ import {TransactionErrorMessage} from "./TransactionErrorMessage";
 import {WaitingForTx} from "./WaitingForTx";
 import {WaitingForTx2} from "./WaitingForTx2";
 
-const daiContract = "0x0ed64d01D0B4B655E410EF1441dD677B695639E7";
+//const daiContract = "0x0ed64d01D0B4B655E410EF1441dD677B695639E7";
 const HARDHAT_NETWORK_ID = '5';
 // const HARDHAT_NETWORK_ID = '31337';
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
-
 
 export class Dapp extends React.Component {
     constructor(props) {
@@ -344,11 +346,11 @@ export class Dapp extends React.Component {
         this._provider = new ethers.providers.Web3Provider(window.ethereum);
 
         this._clerk = new ethers.Contract(
-            contractAddress.Clerk,
+            clerkAddress.Clerk,
             ClerkArtifact.abi,
             this._provider.getSigner(0)
         );
-        console.log("Clerk instance:", contractAddress);
+        console.log("Clerk instance:", clerkAddress);
 
     }
 
@@ -397,9 +399,10 @@ export class Dapp extends React.Component {
             var sSymbol = await this._shares.symbol();
 
             var getBal = await this._shares.balanceOf(aInst);
-            var bal = getBal / 1000000000000000000;
+            var bal = Math.round(getBal / 1000000000000000000);
 
             var sharesBalance = await this._shares.balanceOf(this.state.selectedAddress);
+            var sharesBalancesRounded = Math.round(sharesBalance);
 
             var nInst = await this._clerk.getNFT(1, 0);
             this._nft = new ethers.Contract(
@@ -426,7 +429,7 @@ export class Dapp extends React.Component {
                     auctionInstance: aInst,
                     auctionURL: aURL,
                     pdf: metadata.pdf,
-                    sharesBalance: sharesBalance,
+                    sharesBalance: sharesBalancesRounded,
                     price: rate,
                     end: date,
                 }
@@ -500,7 +503,7 @@ export class Dapp extends React.Component {
             var sharesName = await this._shares.name();
             var sharesSymbol = await this._shares.symbol();
             var creatorsBalanceRaw = await this._shares.balanceOf(this.state.selectedAddress);
-            var creatorsBalance = creatorsBalanceRaw / 1000000000000000000;
+            var creatorsBalance = Math.round(creatorsBalanceRaw / 1000000000000000000);
             var sharesURL = "https://goerli.etherscan.io/address/" + sharesInstance + "";
 
             // Poll data from NFT
@@ -577,7 +580,7 @@ export class Dapp extends React.Component {
             const prepareAuction = new ContractFactory(abi, bytecode, signer);
             const rateToString = (rate * 1000000000000000000).toString();
             const rateFormatted = BigNumber.from(rateToString);
-            const auction = await prepareAuction.deploy(daiContract, lottery.address, rateFormatted, end);
+            const auction = await prepareAuction.deploy(daiAddress.Dai, lottery.address, rateFormatted, end, atoAddress.Ato);
             await auction.deployed();
             console.log("Auction.sol deployed:", auction.address);
 
@@ -653,7 +656,7 @@ export class Dapp extends React.Component {
 
             // Approve
             this._dai = new ethers.Contract(
-                daiContract,
+                daiAddress.Dai,
                 DAIArtifact.abi,
                 this._provider.getSigner(0)
             );
@@ -695,7 +698,7 @@ export class Dapp extends React.Component {
     async _getDAI() {
 
         this._dai = new ethers.Contract(
-            daiContract,
+            daiAddress.Dai,
             DAIArtifact.abi,
             this._provider.getSigner(0)
         );
