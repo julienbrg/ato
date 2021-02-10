@@ -4,10 +4,12 @@ pragma solidity ^0.6.0;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./Lottery.sol";
+import "./Ato.sol";
 
 // In this version (v0.1.3) Auction.sol is a sale contract.
 contract Auction {
 
+    address public ato;
     address public shares;
     address public dai;
     address public lottery;
@@ -16,23 +18,26 @@ contract Auction {
     uint public rate;
     uint public supply;
     uint public total;
+    uint public snap;
 
     struct Trade
     {
         address buyer;
         uint volume;
     }
+
     uint public numTrades;
-    mapping (uint => Trade) public trades;
+    mapping(uint => Trade) public trades;
 
     event Sold(uint indexed id, address indexed buyer, uint volume, uint date);
 
-    constructor (address _dai, address _lottery, uint _rate, uint _end) public
+    constructor (address _dai, address _lottery, uint _rate, uint _end, address _ato) public
     {
         beneficiary = msg.sender;
         dai = _dai;
         rate = _rate;
         lottery = _lottery;
+        ato = _ato;
         end = _end;
     }
 
@@ -41,7 +46,7 @@ contract Auction {
         uint volume = _volume;
 
         require(
-            end > now ,
+            end > now,
             "Sold out!"
         );
 
@@ -50,9 +55,18 @@ contract Auction {
             "You ask for too much: please check the current available supply."
         );
 
-        //require vol mini 10
+        require(
+            volume >= 10 ** 18,
+            "The minimum amount is 10 shares."
+        );
 
-        total = rate * (volume / 10**18);
+
+        if (Ato(ato).balanceOfAt(msg.sender, snap) > 1000000000000000000) {
+            total = rate * (volume / 10 ** 18);
+            total = total / 2;
+        } else {
+            total = rate * (volume / 10 ** 18);
+        }
         IERC20(dai).transferFrom(msg.sender, beneficiary, total);
 
         uint id = numTrades;
@@ -82,5 +96,8 @@ contract Auction {
     {
         supply = IERC20(shares).balanceOf(address(this));
         IERC20(shares).approve(address(this), supply);
+        snap = Ato(ato).getSnap();
+        //snap = Ato(ato).snapID();
+
     }
 }
