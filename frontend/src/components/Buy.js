@@ -24,15 +24,16 @@ export function Buy({ Buy, volume }) {
           name="volume"
           placeholder="10 - 800"
           required
-          minLength="2"    //NEW
-          maxLength="3"   //NEW
+          minLength="2"
+          maxLength="3"
         />
 
-          <i>
+          <p><i>
               <small>
-              Holders of ATO tokens have a 50% discount.
+              All holders of ATO get a 50% discount.
               </small>
-          </i>
+          </i></p>
+          
 
       </div>
       <br />

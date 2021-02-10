@@ -9,11 +9,10 @@ import AuctionArtifact from "../contracts/Auction.json";
 import NFTArtifact from "../contracts/NFT.json";
 import LotteryArtifact from "../contracts/Lottery.json";
 import SharesArtifact from "../contracts/Shares.json";
-import AtoArtifact from "../contracts/Ato.json";          //NEW
 
-import clerkAddress from "../contracts/clerk-addr.json"; //NEW
-import atoAddress from "../contracts/ato-addr.json";    //NEW
-import daiAddress from "../contracts/dai-addr.json";     //NEW
+import clerkAddress from "../contracts/clerk-addr.json";
+import atoAddress from "../contracts/ato-addr.json";
+import daiAddress from "../contracts/dai-addr.json";
 
 import {NoWalletDetected} from "./NoWalletDetected";
 import {ConnectWallet} from "./ConnectWallet";
@@ -300,7 +299,7 @@ export class Dapp extends React.Component {
                     <div className="col-12">
 
                         <p><a target="_blank" rel="noreferrer" className="text-success"
-                              href="https://github.com/julienbrg/minter">ĀTO v0.1.2 on Github</a></p>
+                              href="https://github.com/julienbrg/minter">ĀTO v0.1.4 on Github</a></p>
                     </div>
                 </div>
             </div>

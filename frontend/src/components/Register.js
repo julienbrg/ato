@@ -59,7 +59,9 @@ export function Register({ Register, name, symbol, rate, metadata }) {
           placeholder="http://example.com/myJsonFile.json"
           required
         />
+
       </div>
+
       <br />
       <input
         className="btn-lg btn-primary"

@@ -137,7 +137,7 @@ describe("Āto", function () {
             await dai.connect(buyer).withdraw();
             let balanceB1 = await dai.balanceOf(buyer.address);
             balanceB1 = balanceB1.toString();
-            expect(balanceB1).to.equal('500000000000000000000000');
+            expect(balanceB1).to.equal('1000050000000000000000000');
         });
 
 

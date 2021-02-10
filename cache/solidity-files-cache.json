@@ -938,8 +938,8 @@
       ]
     },
     "/Users/ju/Desktop/ato/contracts/DAI.sol": {
-      "lastModificationDate": 1612960153758,
-      "contentHash": "e68b5b45f1fa4fd9ecfdca3fd76f2ca5",
+      "lastModificationDate": 1612968933164,
+      "contentHash": "3ba5e4a221dd4ed27cf43b0ed21a9aec",
       "sourceName": "contracts/DAI.sol",
       "solcConfig": {
         "version": "0.6.2",
