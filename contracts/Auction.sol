@@ -78,6 +78,7 @@ contract Auction {
         if (supply == 0)
         {
             Lottery(lottery).hardStop(1);
+            end = now;
         }
 
         IERC20(shares).transferFrom(address(this), msg.sender, volume);
@@ -97,7 +98,5 @@ contract Auction {
         supply = IERC20(shares).balanceOf(address(this));
         IERC20(shares).approve(address(this), supply);
         snap = Ato(ato).getSnap();
-        //snap = Ato(ato).snapID();
-
     }
 }

@@ -30,8 +30,11 @@ export function Buy({ Buy, volume }) {
 
           <p><i>
               <small>
-              All holders of ATO get a 50% discount.
+
+                  <p>All holders of ATO get a 50% discount. </p>
+                  When you buy shares of this artwork, you get a chance to win the NFT.
               </small>
+
           </i></p>
           
 

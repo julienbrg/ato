@@ -59,6 +59,7 @@ export function Register({ Register, name, symbol, rate, metadata }) {
           placeholder="http://example.com/myJsonFile.json"
           required
         />
+          <i><small> You can use this URL: <a href="https://ipfs.io/ipfs/QmfYyTACYNmFFZGbVoAT24o8pvbw5HfC1WjAeRoSdi1ZdW"> https://ipfs.io/ipfs/QmfYyTACYNmFFZGbVoAT24o8pvbw5HfC1WjAeRoSdi1ZdW</a> </small></i>
 
       </div>
 
