@@ -16,7 +16,7 @@ task("accounts", "Prints the list of accounts", async () => {
 
 // Add your own private key here
 const INFURA_PROJECT_ID = "89c4e0d4c51840d382a448717cd22b98";
-const GOERLI_PRIVATE_KEY = " Your private key goes here ";
+const GOERLI_PRIVATE_KEY = "<Your Goerli wallet private key goes here>";
 
 module.exports = {
   solidity: "0.6.2",
