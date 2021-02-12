@@ -20,12 +20,9 @@ import {Loading} from "./Loading";
 import {Register} from "./Register";
 import {Buy} from "./Buy";
 import {DisplayMyEtherscanLink} from "./DisplayMyEtherscanLink";
-import {SharesInfo} from "./SharesInfo";
 import {TransactionErrorMessage} from "./TransactionErrorMessage";
 import {WaitingForTx} from "./WaitingForTx";
-import {WaitingForTx2} from "./WaitingForTx2";
 
-//const daiContract = "0x0ed64d01D0B4B655E410EF1441dD677B695639E7";
 const HARDHAT_NETWORK_ID = '5';
 // const HARDHAT_NETWORK_ID = '31337';
 
@@ -121,19 +118,27 @@ export class Dapp extends React.Component {
                             Welcome! Your wallet address is <b>{this.state.selectedAddress}</b>
                         </p>
 
-                        <p>Click on this button to receive some DAI.</p>
-                        <button onClick={() => this._getDAI()} className="btn-sn btn-success mr-md-3">
-                            GET DAI
+                        <p>
+                            If you don't have any Goerli ETH on your wallet, please use <a href="https://goerli-faucet.slock.it/">this faucet</a>.
+                        </p>
+
+
+                        <p>Click the button bellow to get some fresh DAI.</p>
+                        <button onClick={() => this._getDAI()} className="btn-sm btn-success mr-md-3">
+                          Get DAI
                         </button>
+
+                        <br /><br />
+
 
                     </div>
                 </div>
 
-                <hr/>
+
+
+                <hr />
 
                 <h2>Marketplace</h2>
-
-                <br/>
 
                 {this.state.forSale1.name && (
 
@@ -192,9 +197,6 @@ export class Dapp extends React.Component {
                         {this.state.txBeingSent && (
                             <WaitingForTx txHash={this.state.txBeingSent}/>
                         )}
-                        {this.state.tx2BeingSent && (
-                            <WaitingForTx2 txHash={this.state.tx2BeingSent}/>
-                        )}
 
                         {this.state.transactionError && (
                             <TransactionErrorMessage
@@ -206,9 +208,6 @@ export class Dapp extends React.Component {
                     </div>
                 </div>
 
-                {this.state.txBeingSent && (
-                    <SharesInfo cAddr={this.state.cAddr}/>
-                )}
                 <div className="row">
                     <div className="col-12">
                         {(

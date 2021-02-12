@@ -19,27 +19,27 @@ export function Buy({ Buy, volume }) {
 
         <input
           className="form-control"
-          type="text"
+          type="number"
           step="1"
           name="volume"
-          placeholder="10 - 800"
+          placeholder="30"
           required
-          minLength="2"
-          maxLength="3"
+          min="10"
+          max="1000"
         />
 
           <p><i>
               <small>
 
-                  <p>All holders of ATO get a 50% discount. </p>
-                  When you buy shares of this artwork, you get a chance to win the NFT.
+                  <p>When you buy shares of this artwork, you get a chance to win the NFT. </p>
+                  <p class="text-danger">All ATO holders get a 50% discount.</p>
               </small>
 
           </i></p>
-          
+
 
       </div>
-      <br />
+
       <input className="btn-lg btn-success mr-md-3" type="submit" value="Buy" />
       </form>
       </div>

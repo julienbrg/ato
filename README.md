@@ -3,7 +3,7 @@
 ĀTO allows anyone to register both physical and digital artworks on Ethereum. The shares are then for sale and holders of these shares can win the NFT.
 
 It deploys `Auction.sol`, `Shares.sol`, `NFT.sol`, `Lottery.sol` and register these new instances in `Clerk.sol`.
-A demo is available at [https://ato.works/app](https://ato.works/app).
+A live demo is available at [https://ato.works/app](https://ato.works/app).
 
 ## Install
 
@@ -40,7 +40,8 @@ Make sure you have some [Görli ETH](https://goerli-faucet.slock.it/).
 
 Choose a name, symbol, price (in DAI), and a URI (a JSON file that looks like [this](https://gateway.pinata.cloud/ipfs/QmUPPWFhbD8xQsLfTeytAAHpWof6YVVgrazoLpXm2dgPyf)), then click on 'Proceed'.
 
-Click on the GET DAI button to be able to buy shares.
+Click on the 'Get DAI' button to be able to buy shares.
+
 ## Contact
 
 Feel free to [contact me](https://strat.eth.link/contact.html) if you need anything.
